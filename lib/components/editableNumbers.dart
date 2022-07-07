@@ -8,6 +8,7 @@ class EditableNumber extends StatelessWidget {
   final VoidCallback removeFunction;
   final VoidCallback resetFunction;
 
+
   EditableNumber({
     required this.label,
     required this.currentNumber,
@@ -34,7 +35,7 @@ class EditableNumber extends StatelessWidget {
         children: <Widget>[
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 30,
               color: Colors.white,
             ),
@@ -43,6 +44,7 @@ class EditableNumber extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Flexible(
+                flex: 3,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -51,10 +53,10 @@ class EditableNumber extends StatelessWidget {
                         primary:  kOpenScoreboardGreyDarker,
                         onPrimary: Colors.white,
                       ),
-                      child: Text(
+                      onPressed: addFunction,
+                      child: const Text(
                           "+",
                           textAlign: TextAlign.center),
-                      onPressed: addFunction,
 
                     ),
                     ElevatedButton(
@@ -62,25 +64,24 @@ class EditableNumber extends StatelessWidget {
                         primary:  kOpenScoreboardGreyDarker,
                         onPrimary: Colors.white,
                       ),
-                      child: Text(
+                      onPressed: removeFunction,
+                      child: const Text(
                           "-",
                           textAlign: TextAlign.center),
-                      onPressed: removeFunction,
                     ),
                   ],
+                )
                 ),
-                flex: 3
-                ),
-              Spacer(flex:1),
+              const Spacer(flex:1),
               Flexible(
+                flex: 6,
                 child: Text(
                   currentNumber.toString().padLeft(2, '0'),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 55,
                     color: kOpenScoreboardBlue,
                   ),
                 ),
-                flex: 6,
                 )
             ],
           ),
@@ -89,10 +90,10 @@ class EditableNumber extends StatelessWidget {
                         primary:  kOpenScoreboardGreyDarker,
                         onPrimary: Colors.white,
                       ),
-            child: Text(
+            onPressed: resetFunction,
+            child: const Text(
                 "Reset",
                 textAlign: TextAlign.center),
-            onPressed: resetFunction,
           )
         ],
       ),

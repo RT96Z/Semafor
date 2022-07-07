@@ -7,6 +7,8 @@ import 'package:semafor/components/showTime.dart';
 import 'package:semafor/components/scoreControls.dart';
 import 'package:semafor/states/home_state.dart';
 import 'package:semafor/colors.dart';
+import 'package:semafor/screens/start_page.dart';
+import 'package:semafor/states/switch_state.dart';
 
 class HomeView extends HomeState {
   @override
@@ -117,6 +119,35 @@ class HomeView extends HomeState {
               )),
             ],
           ),
+           Row(
+            children: [
+              Flexible(
+                fit: FlexFit.tight,
+                flex: 1,
+                child: Switcher()
+
+              ),
+              Flexible(
+                fit: FlexFit.tight,
+                flex: 1,
+                child:ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                        primary:  kOpenScoreboardGreyDarker,
+                        onPrimary: Colors.white,
+                      ),
+                  onPressed: (() {
+                    
+                    
+               Navigator.pop(context);
+                    
+
+                  }),
+
+                  child: Text('NAZAD'),
+                ),),
+            ],
+          ),
+
         ])));
   }
 }

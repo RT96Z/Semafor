@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:semafor/colors.dart';
@@ -50,13 +49,13 @@ class GameClockView extends StatelessWidget{
           color: kOpenScoreboardBlue,
           width: 3,
         ),
-        borderRadius: new BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(20.0),
       ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text(
+            const Text(
               "Scoreboard",
               style: TextStyle(
                 fontSize: 30,
@@ -77,7 +76,7 @@ class GameClockView extends StatelessWidget{
               },
               child: Text(
                   _stringTime(),
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 80,
                       color: kOpenScoreboardBlue,
                   ),
@@ -92,7 +91,7 @@ class GameClockView extends StatelessWidget{
                         onPrimary: Colors.white
                       ),
                   onPressed: running ? stopFunction : startFunction,
-                  child: running ? Text('Stop') : Text('Start'),
+                  child: running ? const Text('Stop') : const Text('Start'),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -101,7 +100,7 @@ class GameClockView extends StatelessWidget{
                       ),
                   onPressed: resetGameFunction,
 
-                  child: Text('Reset Game Clock'),
+                  child: const Text('Reset Game Clock'),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -110,7 +109,7 @@ class GameClockView extends StatelessWidget{
                       ),
                   onPressed: endHalf,
 
-                  child: Text('End of FIRST HALF'),
+                  child: const Text('End of FIRST HALF'),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -119,7 +118,7 @@ class GameClockView extends StatelessWidget{
                       ),
                   onPressed: fullTime,
 
-                  child: Text('End of SECOND HALF'),
+                  child: const Text('End of SECOND HALF'),
                 ),
               ]
             ),
@@ -144,7 +143,7 @@ class GameClockView extends StatelessWidget{
       int currentMinutes,
       int currentSeconds,
       Function onConfirm) {
-    new Picker(
+    Picker(
         adapter: NumberPickerAdapter(data: [
           NumberPickerColumn(begin: 0, end: end, initValue: currentMinutes),
           NumberPickerColumn(begin: 0, end: 59, initValue: currentSeconds),
@@ -155,14 +154,14 @@ class GameClockView extends StatelessWidget{
           PickerDelimiter(child: Container(
             width: 30.0,
             alignment: Alignment.center,
-            child: Icon(Icons.more_vert),
+            child: const Icon(Icons.more_vert),
           ))
         ],
         hideHeader: true,
-        title: new Text("Set "+ display +" Game Clock Value", style: TextStyle(color: kOpenScoreboardBlue)),
-        textStyle: TextStyle(color: kOpenScoreboardBlue),
-        cancelTextStyle: TextStyle(color: kOpenScoreboardBlue),
-        confirmTextStyle: TextStyle(color: kOpenScoreboardBlue),
+        title: Text("Set "+ display +" Game Clock Value", style: const TextStyle(color: kOpenScoreboardBlue)),
+        textStyle: const TextStyle(color: kOpenScoreboardBlue),
+        cancelTextStyle: const TextStyle(color: kOpenScoreboardBlue),
+        confirmTextStyle: const TextStyle(color: kOpenScoreboardBlue),
         // onConfirm: onConfirm
     ).showDialog(context, backgroundColor: kOpenScoreboardGreyDark);
   }
