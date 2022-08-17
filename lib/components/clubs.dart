@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:semafor/text_field_decoration.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Clubs extends StatelessWidget {
+//import 'package:firebase_database/firebase_database.dart';
+
+
+class Clubs extends StatefulWidget {
+  @override
+  State<Clubs> createState() => _ClubsState();
+}
+
+class _ClubsState extends State<Clubs> {
+ CollectionReference clubData = FirebaseFirestore.instance.collection('clubs');
+  //final database = FirebaseDatabase.instance.reference;
+
+
   @override
   Widget build(BuildContext context) {
+
+    late String clubNameTextInput;
+    late String clubIDTextInput;
+
+ //   final clubTest = database.child('/Klubovi/clubTest'); // Kasnije u verziji promjeniti u npr. Klubovi/ Clubs
     return Scaffold(
       body: Row(
         children: [
@@ -17,6 +35,7 @@ class Clubs extends StatelessWidget {
                   width: 500,
                   height: 100,
                   child: TextField(
+                    onChanged: (String value) => clubIDTextInput=value,
                     style: TextStyle(
                       color: Colors.red,
                     ),
@@ -35,6 +54,7 @@ class Clubs extends StatelessWidget {
                   width: 500,
                   height: 100,
                   child: TextField(
+                    onChanged: (value) => clubNameTextInput=value, // Flutter sam perpoznaje da je string jer samo to i očekuje
                     style: TextStyle(
                       color: Colors.red,
                     ),
@@ -50,12 +70,24 @@ class Clubs extends StatelessWidget {
             children: [
               
               Padding(padding: EdgeInsets.symmetric(vertical: 45)),
-              SizedBox(width: 100, height: 60, child: ElevatedButton(onPressed: () {}, child: Text('Submit')),),
+              SizedBox(width: 100, height: 60, child: ElevatedButton(onPressed: () async {
+
+                await clubData.add({'id': clubIDTextInput , 'clubName' : clubNameTextInput });
+
+                // clubTest.set({'id': clubIDTextInput , 'clubName' : clubNameTextInput });
+
+
+              }, child: Text('Submit')),),
               
               ],
           ),
         ],
       ),
     );
+
+
+
+
+
   }
 }

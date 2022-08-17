@@ -6,7 +6,7 @@ import 'package:semafor/components/players.dart';
 
 import '../colors.dart';
 
-enum WidgetMarker { Clubs, Players, Ostalo }
+enum WidgetMarker { Clubs, Players, Postave ,Ostalo }
 
 class SettingsView extends StatelessWidget {
   @override
@@ -73,6 +73,18 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
                   style: ElevatedButton.styleFrom(primary: kOpenScoreboardBlue),
                   onPressed: () {
                     setState(() {
+                      SelectedWidgetMarker = WidgetMarker.Postave;
+                    });
+                  },
+                  child: Text('Postave'),
+                )),
+            SizedBox(
+                width: 100,
+                height: 100,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: kOpenScoreboardBlue),
+                  onPressed: () {
+                    setState(() {
                       SelectedWidgetMarker = WidgetMarker.Ostalo;
                     });
                   },
@@ -93,10 +105,12 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
         return ClubsContainer();
       case WidgetMarker.Players:
         return PlayersContainer();
+      case WidgetMarker.Postave:
+        return PlayersContainer();
       case WidgetMarker.Ostalo:
         return OStaloContainer();
     }
-    return ClubsContainer();
+    return ClubsContainer();  // default container
   }
 
   Widget ClubsContainer() {
@@ -104,6 +118,9 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
   }
 
   Widget PlayersContainer() {
+    return Flexible(fit: FlexFit.tight, flex: 1, child: Players());
+  }
+  Widget PostaveContainer() {
     return Flexible(fit: FlexFit.tight, flex: 1, child: Players());
   }
 
