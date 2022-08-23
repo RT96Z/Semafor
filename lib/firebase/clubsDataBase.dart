@@ -18,7 +18,7 @@ class _clubsDataListState extends State<clubsDataList> {
   final TextEditingController _ClubNameController = TextEditingController();
   
 
-  final CollectionReference _products =
+  final CollectionReference _clubs =
       FirebaseFirestore.instance.collection('clubs');
 
 
@@ -66,7 +66,7 @@ class _clubsDataListState extends State<clubsDataList> {
                         double.tryParse(_clubIDController.text);
                     if (clubID != null) {
 
-                        await _products
+                        await _clubs
                             .doc(documentSnapshot!.id)
                             .update({"clubName": name, "clubID": clubID});
                       _ClubNameController.text = '';
@@ -81,11 +81,11 @@ class _clubsDataListState extends State<clubsDataList> {
         });
   }
 
-  Future<void> _delete(String productId) async {
-    await _products.doc(productId).delete();
+  Future<void> _delete(String clubId) async {
+    await _clubs.doc(clubId).delete();
 
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('You have successfully deleted a product')));
+        content: Text('You have successfully deleted a club')));
   }
 
   @override
@@ -93,7 +93,7 @@ class _clubsDataListState extends State<clubsDataList> {
     return Scaffold(
 
       body: StreamBuilder(
-        stream: _products.snapshots(),
+        stream: _clubs.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return ListView.builder(
@@ -104,6 +104,7 @@ class _clubsDataListState extends State<clubsDataList> {
                 return Card(
                   margin: const EdgeInsets.all(1),
                   child: ListTile(
+                    
                     title: Text(documentSnapshot['clubName']),
                     subtitle: Text(documentSnapshot['clubID']),
                     trailing: SizedBox(
@@ -132,7 +133,7 @@ class _clubsDataListState extends State<clubsDataList> {
           );
         },
       ),
-// Add new product
+// Add new club
       
     );
   }
