@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 
 final textFieldDecoration = InputDecoration(
+  hintText: '',
   filled: true,
   fillColor: Colors.blueGrey[100],
   icon: Icon(

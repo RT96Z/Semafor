@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:semafor/components/editableNumbers.dart';
 import 'package:semafor/components/gameClock.dart';
 import 'package:semafor/components/scoreControls.dart';
 import 'package:semafor/components/scoreResult.dart';
 import 'package:semafor/components/showTime.dart';
-import 'package:semafor/components/scoreControls.dart';
 import 'package:semafor/states/home_state.dart';
 import 'package:semafor/colors.dart';
-import 'package:semafor/screens/start_page.dart';
 import 'package:semafor/states/switch_state.dart';
 
 class HomeView extends HomeState {

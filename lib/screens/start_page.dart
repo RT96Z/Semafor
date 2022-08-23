@@ -3,9 +3,6 @@ import 'home_screen.dart';
 
 import 'package:semafor/views/settings_view.dart';
 
-import 'package:semafor/components/test.dart';
-import 'package:semafor/components/clubs.dart';
-import 'package:semafor/states/switch_state.dart';
 class StartPage extends StatefulWidget {
   @override
   State<StartPage> createState() => _StartPageState();
