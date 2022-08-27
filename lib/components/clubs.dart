@@ -69,7 +69,7 @@ class _ClubsState extends State<Clubs> {
               Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   
                   Padding(padding: EdgeInsets.symmetric(vertical: 20)),

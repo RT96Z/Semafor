@@ -62,8 +62,7 @@ class _clubsDataListState extends State<clubsDataList> {
                   child: const Text( 'Update'),
                   onPressed: () async {
                     final String name = _ClubNameController.text;
-                    final double? clubID =
-                        double.tryParse(_clubIDController.text);
+                    final String clubID =_clubIDController.text;
                     if (clubID != null) {
 
                         await _clubs

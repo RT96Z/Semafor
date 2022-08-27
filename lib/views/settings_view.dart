@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:semafor/components/clubs.dart';
 import 'package:semafor/components/players.dart';
+import 'package:semafor/components/postave.dart';
 
 import '../colors.dart';
 
@@ -106,7 +107,7 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
       case WidgetMarker.Players:
         return PlayersContainer();
       case WidgetMarker.Postave:
-        return PlayersContainer();
+        return PostaveContainer();
       case WidgetMarker.Ostalo:
         return OStaloContainer();
     }
@@ -121,7 +122,7 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
     return Flexible(fit: FlexFit.tight, flex: 1, child: Players());
   }
   Widget PostaveContainer() {
-    return Flexible(fit: FlexFit.tight, flex: 1, child: Players());
+    return Flexible(fit: FlexFit.tight, flex: 1, child: Postave());
   }
 
   Widget OStaloContainer() {

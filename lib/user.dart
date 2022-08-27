@@ -1,28 +1,70 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ClubLIST {
+class homeClub {
  
-  final String id;
   final String clubName;
+  int goals;
 
-  ClubLIST({
+  homeClub({
 
-    required this.id,
+     this.goals = 0,
     required this.clubName,
   });
 
 
-/*  SLUŽILO ZA DODAVANJE KLUBA PREKO DRUGOG NAČINA
-  Map<String, dynamic> toJson() => {
-        'serial': serial,
-        'id': id,
-        'clubName': clubName,
-      };
 
-  */
+}
 
-  static ClubLIST fromJson(Map<String, dynamic> json) =>
-      ClubLIST(
-        id: json['id'],
-         clubName: json['clubName']);
+
+
+class awayClub {
+ 
+  final String clubName;
+  int goals;
+
+  awayClub({
+
+     this.goals = 0,
+    required this.clubName,
+  });
+
+
+
+
+
+
+
+}
+
+class AustinFeedsMeEvent {
+  static final String columnId = "_id";
+  static final String columnName = "name";
+
+
+  AustinFeedsMeEvent({
+    required this.name
+
+  
+  });
+
+  final String name;
+
+ 
+
+  Map toMap() {
+    Map<String, dynamic> map = {
+      columnName: name,
+
+ 
+    };
+
+    return map;
+  }
+
+  static AustinFeedsMeEvent fromMap(Map map) {
+    return new AustinFeedsMeEvent(
+        name: map[columnName]);
+
+
+  }
 }

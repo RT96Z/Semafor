@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 
 import 'package:semafor/views/settings_view.dart';
+import 'package:semafor/views/publicScoreboardScreen.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -21,8 +22,8 @@ class _StartPageState extends State<StartPage> {
               height: 100,
               child: ElevatedButton(
                 onPressed: (() {
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => /* kasnije dodati*/ ));
+                   Navigator.push(context,
+                       MaterialPageRoute(builder: (context) => PublicScoreboardScreen() ));
                 }),
                 child: Text(
                   "Prikaz semafora",

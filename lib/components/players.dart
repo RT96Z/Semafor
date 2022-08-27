@@ -1,4 +1,4 @@
-import 'dart:js_util';
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -85,12 +85,12 @@ class Players extends StatelessWidget {
                         )),
                   ],
                 ),
-                Padding(padding: EdgeInsets.symmetric(horizontal: 30)),
+                Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(padding: EdgeInsets.symmetric(vertical: 45)),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 20)),
                      SizedBox(width: 100, height: 60, child: ElevatedButton(onPressed: () async {
                       addUser();
                       clearPlayerTexts();
