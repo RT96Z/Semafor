@@ -1,12 +1,15 @@
-import 'dart:html';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:semafor/components/clubs.dart';
-
 import '../colors.dart';
+import 'dart:async';
+import 'package:firebase_storage/firebase_storage.dart';
 
 
 enum WidgetMarker { Golovi, Reklame, Ostalo }
+
+
+final CollectionReference kartoni =
+    FirebaseFirestore.instance.collection('game');
 
 class Switcher extends StatelessWidget {
   @override
@@ -28,10 +31,11 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
 
-          crossAxisAlignment: CrossAxisAlignment.center,
+
           children: [
             SizedBox(
                 width: 100,
@@ -42,7 +46,7 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
                       SelectedWidgetMarker = WidgetMarker.Golovi;
                     });
                   },
-                  child: Text('Golovi'),
+                  child: Text('Kartoni'),
                 )),
 
             SizedBox(
@@ -50,7 +54,7 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
                 height: 100,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: kOpenScoreboardBlue
+                    backgroundColor: kOpenScoreboardBlue
                   ),
                   onPressed: () {
                     setState(() {
@@ -89,7 +93,7 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
       case WidgetMarker.Ostalo:
         return OStaloContainer();
     }
-    return GoloviContainer();
+   // return GoloviContainer();
   }
 
   Widget GoloviContainer() {
@@ -97,8 +101,55 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
       fit: FlexFit.tight,
       flex: 1,
       child: Container(
-        height: 300,
+        height: 600,
         color: Colors.red,
+        child: Column(
+          children: [
+            Row(children: [SizedBox( height: 50,)],),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                          child: Text('Žuti karton'),
+                          style: ElevatedButton.styleFrom(
+                            
+                            backgroundColor: Colors.yellow,
+                            padding: EdgeInsets.all(30)
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              FirebaseFirestore.instance.collection('game').doc('Event').collection('Events').doc('Cards').update({'index': 1, });
+                              Timer(Duration(seconds: 7), () {
+                                setState(() {
+                                  FirebaseFirestore.instance.collection('game').doc('Event').collection('Events').doc('Cards').update({'index': 0, });
+                                });
+                              });
+                            });
+                          },
+                        ),
+            SizedBox(width: 50,),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            padding: EdgeInsets.all(30)
+                          ),
+                          child: Text('Crveni karton'),
+                          onPressed: () {
+                            setState(() {
+                              FirebaseFirestore.instance.collection('game').doc('Event').collection('Events').doc('Cards').update({'index': 2, });
+                              Timer(Duration(seconds: 7), () {
+                                setState(() {
+                                  FirebaseFirestore.instance.collection('game').doc('Event').collection('Events').doc('Cards').update({'index': 0, });
+                                });
+                              });
+                            });
+                          },
+                        ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -108,7 +159,7 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
       fit: FlexFit.tight,
       flex: 1,
       child: Container(
-        height: 300,
+
         color: Colors.blue,
       ),
     );
@@ -116,10 +167,10 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
 
   Widget OStaloContainer() {
     return Flexible(
-      fit: FlexFit.tight,
+
       flex: 1,
       child: Container(
-        height: 300,
+        height: 400,
         color: Colors.blueGrey,
       ),
     );

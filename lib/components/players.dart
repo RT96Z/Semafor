@@ -1,10 +1,9 @@
-
-import 'dart:convert';
-
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:semafor/text_field_decoration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:semafor/firebase/playersDataBase.dart';
+
 
 class Players extends StatelessWidget {
 
@@ -92,6 +91,16 @@ class Players extends StatelessWidget {
                   children: [
                     Padding(padding: EdgeInsets.symmetric(vertical: 20)),
                      SizedBox(width: 100, height: 60, child: ElevatedButton(onPressed: () async {
+
+
+        
+  
+                    
+
+                     }, child: Text('Dodaj')),),
+
+                    Padding(padding: EdgeInsets.symmetric(vertical: 20)),
+                     SizedBox(width: 100, height: 60, child: ElevatedButton(onPressed: () async {
                       addUser();
                       clearPlayerTexts();
                       showDialog(
@@ -156,4 +165,24 @@ void clearPlayerTexts() {
             'playerClub' : playerClub.text
           });
     }
+
+void uploadImage(){
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+

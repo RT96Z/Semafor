@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_picker/flutter_picker.dart';
+
 import 'package:semafor/colors.dart';
 
 class GameClockView1 extends StatelessWidget{
@@ -61,36 +61,7 @@ class GameClockView1 extends StatelessWidget{
     return (milliseconds - (_getMinutes(milliseconds) * 60 * 1000)) ~/ 1000;
   }
 
-  void _showNumberPicker(
-      BuildContext context,
-      String display,
-      int end,
-      int currentMinutes,
-      int currentSeconds,
-      Function onConfirm) {
-    new Picker(
-        adapter: NumberPickerAdapter(data: [
-          NumberPickerColumn(begin: 0, end: end, initValue: currentMinutes),
-          NumberPickerColumn(begin: 0, end: 59, initValue: currentSeconds),
-        ]),
-        backgroundColor: kOpenScoreboardGreyDark,
-        containerColor: kOpenScoreboardGreyDark,
-        delimiter: [
-          PickerDelimiter(child: Container(
-            width: 30.0,
-            alignment: Alignment.center,
-            child: Icon(Icons.more_vert),
-          ))
-        ],
-        hideHeader: true,
-        title: new Text("Set "+ display +" Game Clock Value", style: TextStyle(color: kOpenScoreboardBlue)),
-        textStyle: TextStyle(color: kOpenScoreboardBlue),
-        cancelTextStyle: TextStyle(color: kOpenScoreboardBlue),
-        confirmTextStyle: TextStyle(color: kOpenScoreboardBlue),
-        // onConfirm: onConfirm
-    ).showDialog(context, backgroundColor: kOpenScoreboardGreyDark);
-  }
-
+ 
 
 
 

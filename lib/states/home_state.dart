@@ -5,11 +5,11 @@ import 'package:semafor/screens/home_screen.dart';
 
 abstract class HomeState extends State<HomeScreen> {
   @protected
-  Stopwatch mGameStopwatch = new Stopwatch();
+  Stopwatch mGameStopwatch = Stopwatch();
 
   late Timer mRefreshTimer;
 
-  Duration mRefreshTickDuration = Duration(milliseconds: 30);
+  Duration mRefreshTickDuration = const Duration(milliseconds: 30);
 
   int mDefaultGameTimeMilliseconds = 0;
 
@@ -162,12 +162,5 @@ abstract class HomeState extends State<HomeScreen> {
     int Seconds =
         (mCurrentGameTimeMilliseconds - (Minutes * 60 * 1000)) ~/ 1000;
 
-    String ScorePacket = mHomeScore.toString() +
-        "," +
-        mAwayScore.toString() +
-        "," +
-        Minutes.toString() +
-        "," +
-        Seconds.toString();
   }
 }

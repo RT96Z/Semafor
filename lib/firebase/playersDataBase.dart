@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
+
 class playersDataList extends StatefulWidget {
   const playersDataList({Key? key}) : super(key: key);
 
@@ -19,7 +20,7 @@ class playersDataListState extends State<playersDataList> {
       TextEditingController();
   final TextEditingController _playerClubController = TextEditingController();
 
-  final CollectionReference _clubs =
+  final CollectionReference _players =
       FirebaseFirestore.instance.collection('players');
 
   Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
@@ -73,7 +74,7 @@ class playersDataListState extends State<playersDataList> {
                     final String PlayerNumber = _playerNumberController.text;
                     final String PlayerClub = _playerClubController.text;
                     if (PlayerNumber != null) {
-                      await _clubs.doc(documentSnapshot!.id).update({
+                      await _players.doc(documentSnapshot!.id).update({
                         "playerbName": PlayerName,
                         'playerSurname': PlayerSurname,
                         "playerNumber": PlayerNumber,
@@ -92,7 +93,7 @@ class playersDataListState extends State<playersDataList> {
   }
 
   Future<void> _delete(String clubId) async {
-    await _clubs.doc(clubId).delete();
+    await _players.doc(clubId).delete();
 
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('You have successfully deleted a player')));
@@ -101,8 +102,8 @@ class playersDataListState extends State<playersDataList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder(
-        stream: _clubs.snapshots(),
+      body: FutureBuilder(
+        future: _players.get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return ListView.builder(

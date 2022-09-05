@@ -1,8 +1,13 @@
+import 'dart:html';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+
+late String clubName;
 
 class clubsDataList extends StatefulWidget {
   const clubsDataList({Key? key}) : super(key: key);
@@ -12,7 +17,7 @@ class clubsDataList extends StatefulWidget {
 }
 
 class _clubsDataListState extends State<clubsDataList> {
-// text fields' controllers
+// text fields  controllers
 
   final TextEditingController _clubIDController = TextEditingController();
   final TextEditingController _ClubNameController = TextEditingController();
@@ -91,8 +96,8 @@ class _clubsDataListState extends State<clubsDataList> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      body: StreamBuilder(
-        stream: _clubs.snapshots(),
+      body: FutureBuilder(
+        future: _clubs.get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return ListView.builder(
@@ -110,6 +115,10 @@ class _clubsDataListState extends State<clubsDataList> {
                       width: 100,
                       child: Row(
                         children: [
+                        IconButton(
+                              icon: const Icon(Icons.image_rounded),
+                              onPressed: () =>
+                                  uploadToStorage(documentSnapshot)),
                           IconButton(
                               icon: const Icon(Icons.edit),
                               onPressed: () =>
@@ -136,4 +145,27 @@ class _clubsDataListState extends State<clubsDataList> {
       
     );
   }
+
+
+    uploadToStorage([DocumentSnapshot? documentSnapshot]) {
+
+    clubName = documentSnapshot!['clubName'];
+    InputElement input = FileUploadInputElement() as InputElement
+      ..accept = 'image/*';
+    FirebaseStorage fs = FirebaseStorage.instance;
+    input.click();
+    input.onChange.listen((event) {
+      final file = input.files!.first;
+      final reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) async {
+        var snapshot = await fs.ref('Clubs').child('$clubName').putBlob(file);
+    
+       
+      });
+    });
+  }
+
+
+
 }

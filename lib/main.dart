@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:semafor/screens/home_screen.dart';
 import 'package:semafor/screens/start_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -19,9 +18,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: Colors.black,
       title: 'Semafor',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white   // Kasnije dodati da se ovdje mijenja pozadina.
       ),
       home: StartPage(),
       //const HomeScreen(),

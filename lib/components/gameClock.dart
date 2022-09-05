@@ -1,41 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_picker/flutter_picker.dart';
 import 'package:semafor/colors.dart';
 
-class GameClockView extends StatelessWidget{
-    final int currentTimeMilliseconds;
-  final int defaultGameclock;
-  final bool running;
-  final VoidCallback startFunction;
-  final VoidCallback stopFunction;
-  final VoidCallback resetGameFunction;
-  final VoidCallback endHalf;
-  final VoidCallback fullTime;
-  final Function setGameFunction;
-  final Function setDefaultGameFunction;
+int liveTime = 0, normalTime = 0;
+int onPressedTime = 0;
+int timeControlls = 0;
 
+final CollectionReference saljemVrijeme =
+    FirebaseFirestore.instance.collection('game');
 
-  GameClockView({
-    
-    required this.currentTimeMilliseconds,
-    required this.defaultGameclock,
-    required this.running,
-    required this.startFunction,
-    required this.stopFunction,
-    required this.resetGameFunction,
-    required this.endHalf,
-    required this.fullTime,
-    required this.setGameFunction,
-    required this.setDefaultGameFunction
-  });
+class ClockControlls extends StatefulWidget {
+  const ClockControlls({Key? key}) : super(key: key);
 
- String _stringTime() {
-    var minutesString = _getMinutes(currentTimeMilliseconds).toString().padLeft(2, '0');
+  @override
+  State<ClockControlls> createState() => _ClockControllsState();
+}
 
-    var secondsString = _getSeconds(currentTimeMilliseconds).toString().padLeft(2, '0');
+class _ClockControllsState extends State<ClockControlls> {
 
-    return "$minutesString:$secondsString";
-  }
 
 @override
   build(BuildContext context) {
@@ -62,63 +44,75 @@ class GameClockView extends StatelessWidget{
                 color: Colors.white,
               ),
             ),
-            GestureDetector(
-              onLongPress: () {
-                _showNumberPicker(
-                    context,
-                    "Current",
-                    (defaultGameclock ~/ (60 * 1000)),
-                    _getMinutes(currentTimeMilliseconds),
-                    _getSeconds(currentTimeMilliseconds),
-                    (Picker picker, List value) {
-                      setGameFunction((value[0] * 60 * 1000) + value[1] * 1000);
-                    });
-              },
-              child: Text(
-                  _stringTime(),
-                  style: const TextStyle(
-                      fontSize: 80,
-                      color: kOpenScoreboardBlue,
-                  ),
-              ),
-            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                        primary:  kOpenScoreboardGreyDarker,
-                        onPrimary: Colors.white
+                        backgroundColor:  kOpenScoreboardGreyDarker,
+                        foregroundColor: Colors.white
                       ),
-                  onPressed: running ? stopFunction : startFunction,
-                  child: running ? const Text('Stop') : const Text('Start'),
+                  onPressed: () {
+                          setState(() {
+                            if (timeControlls == 0) {
+                              onPressedTime =
+                                  DateTime.now().millisecondsSinceEpoch;
+                              timeControlls = 1;
+                            } else if (timeControlls == 2) {
+                              onPressedTime = DateTime.now().millisecondsSinceEpoch - 2700000;
+                              timeControlls = 1;
+                            }
+                               saljemVrijeme.doc('Time').update({'index': 1, });
+                              saljemVrijeme.doc('Time').update({'onClick': onPressedTime, });
+                          
+                          });
+                        },
+                  child: const Text('Start'),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                        primary:  kOpenScoreboardGreyDarker,
-                        onPrimary: Colors.white,
+                        backgroundColor:  kOpenScoreboardGreyDarker,
+                        foregroundColor: Colors.white,
                       ),
-                  onPressed: resetGameFunction,
+                                          onPressed: () {
+                          setState(() {
+                            timeControlls = 0;
+                            saljemVrijeme.doc('Time').update({'index': 0, });
+                                 
+
+                          });
+                        },
 
                   child: const Text('Reset Game Clock'),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                        primary:  kOpenScoreboardGreyDarker,
-                        onPrimary: Colors.white,
+                        backgroundColor:  kOpenScoreboardGreyDarker,
+                        foregroundColor: Colors.white,
                       ),
-                  onPressed: endHalf,
+                 onPressed: () {
+                          setState(() {
+                            timeControlls = 2;
+                            saljemVrijeme.doc('Time').update({'index': 2, });
+                          });
+                        },
 
                   child: const Text('End of FIRST HALF'),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                        primary:  kOpenScoreboardGreyDarker,
-                        onPrimary: Colors.white,
+                        backgroundColor:  kOpenScoreboardGreyDarker,
+                        foregroundColor: Colors.white,
                       ),
-                  onPressed: fullTime,
+                  onPressed: () {
+                          setState(() {
+                            timeControlls = 3;
+                            saljemVrijeme.doc('Time').update({'index': 3, });
+                          });
+                        },
 
-                  child: const Text('End of SECOND HALF'),
+                  child: const Text('End of GAME'),
                 ),
               ]
             ),
@@ -127,46 +121,4 @@ class GameClockView extends StatelessWidget{
       )
     );
   }
-
-  int _getMinutes(int milliseconds) {
-    return (milliseconds ~/ (60 * 1000));
-  }
-
-  int _getSeconds (int milliseconds) {
-    return (milliseconds - (_getMinutes(milliseconds) * 60 * 1000)) ~/ 1000;
-  }
-
-  void _showNumberPicker(
-      BuildContext context,
-      String display,
-      int end,
-      int currentMinutes,
-      int currentSeconds,
-      Function onConfirm) {
-    Picker(
-        adapter: NumberPickerAdapter(data: [
-          NumberPickerColumn(begin: 0, end: end, initValue: currentMinutes),
-          NumberPickerColumn(begin: 0, end: 59, initValue: currentSeconds),
-        ]),
-        backgroundColor: kOpenScoreboardGreyDark,
-        containerColor: kOpenScoreboardGreyDark,
-        delimiter: [
-          PickerDelimiter(child: Container(
-            width: 30.0,
-            alignment: Alignment.center,
-            child: const Icon(Icons.more_vert),
-          ))
-        ],
-        hideHeader: true,
-        title: Text("Set "+ display +" Game Clock Value", style: const TextStyle(color: kOpenScoreboardBlue)),
-        textStyle: const TextStyle(color: kOpenScoreboardBlue),
-        cancelTextStyle: const TextStyle(color: kOpenScoreboardBlue),
-        confirmTextStyle: const TextStyle(color: kOpenScoreboardBlue),
-        // onConfirm: onConfirm
-    ).showDialog(context, backgroundColor: kOpenScoreboardGreyDark);
-  }
-
-
-
-
 }

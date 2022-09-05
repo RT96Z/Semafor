@@ -1,10 +1,9 @@
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:semafor/components/clubs.dart';
 import 'package:semafor/components/players.dart';
 import 'package:semafor/components/postave.dart';
-
+import 'package:semafor/test.dart';
 import '../colors.dart';
 
 enum WidgetMarker { Clubs, Players, Postave ,Ostalo }
@@ -37,7 +36,7 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
               width: 100,
               height: 100,
               child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: kOpenScoreboardBlue),
+                  style: ElevatedButton.styleFrom(backgroundColor: kOpenScoreboardBlue),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -47,7 +46,7 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
                 width: 100,
                 height: 100,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: kOpenScoreboardBlue),
+                  style: ElevatedButton.styleFrom(backgroundColor: kOpenScoreboardBlue),
                   onPressed: () {
                     setState(() {
                       SelectedWidgetMarker = WidgetMarker.Clubs;
@@ -59,7 +58,7 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
                 width: 100,
                 height: 100,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: kOpenScoreboardBlue),
+                  style: ElevatedButton.styleFrom(backgroundColor: kOpenScoreboardBlue),
                   onPressed: () {
                     setState(() {
                       SelectedWidgetMarker = WidgetMarker.Players;
@@ -71,7 +70,7 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
                 width: 100,
                 height: 100,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: kOpenScoreboardBlue),
+                  style: ElevatedButton.styleFrom(backgroundColor: kOpenScoreboardBlue),
                   onPressed: () {
                     setState(() {
                       SelectedWidgetMarker = WidgetMarker.Postave;
@@ -83,7 +82,7 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
                 width: 100,
                 height: 100,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: kOpenScoreboardBlue),
+                  style: ElevatedButton.styleFrom(backgroundColor: kOpenScoreboardBlue),
                   onPressed: () {
                     setState(() {
                       SelectedWidgetMarker = WidgetMarker.Ostalo;
@@ -111,7 +110,7 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
       case WidgetMarker.Ostalo:
         return OStaloContainer();
     }
-    return ClubsContainer();  // default container
+    // return ClubsContainer();  // default container
   }
 
   Widget ClubsContainer() {
@@ -129,9 +128,7 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
     return Flexible(
       fit: FlexFit.tight,
       flex: 1,
-      child: Container(
-        height: 300,
-      ),
+      child: Time()
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:semafor/components/gameClock.dart';
-import 'package:semafor/components/scoreControls.dart';
-import 'package:semafor/components/scoreResult.dart';
-import 'package:semafor/components/showTime.dart';
+
+import 'package:semafor/components/control_score.dart';
+
+import 'package:semafor/firebase/game_list.dart';
 import 'package:semafor/states/home_state.dart';
 import 'package:semafor/colors.dart';
 import 'package:semafor/states/switch_state.dart';
@@ -21,130 +22,70 @@ class HomeView extends HomeState {
     return Center(
         child: SingleChildScrollView(
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
           Row(
             children: [
               Flexible(
                 fit: FlexFit.tight,
                 flex: 1,
-                child: 
-        showScore(
-                  currentHomeScore: mHomeScore.toString(),
-                  currentAwayScore: mAwayScore.toString(),
-                ),
+                child: ClockControlls(),
               ),
+              Flexible(fit: FlexFit.tight, flex: 1, child: ControlScore()),
             ],
           ),
           Row(
             children: [
-              Flexible(
-                fit: FlexFit.tight,
-                flex: 3,
-                child: Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: kOpenScoreboardGreyDark,
-                    )),
+              Column(
+                children: [
+                  Container(width: 800, height: 600, child: Switcher()),
+                ],
               ),
-              Flexible(
-                  fit: FlexFit.tight,
-                  flex: 1,
-                  child: 
-        GameClockView1(
-                    currentTimeMilliseconds: mCurrentGameTimeMilliseconds,
-                    defaultGameclock: mDefaultGameTimeMilliseconds,
-                    running: mIsRunning,
-                  )),
-              Flexible(
-                fit: FlexFit.tight,
-                flex: 3,
-                child: Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: kOpenScoreboardGreyDark,
-                    )),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Flexible(
-                fit: FlexFit.tight,
-                flex: 1,
-                child:
-              GameClockView(
-                currentTimeMilliseconds: mCurrentGameTimeMilliseconds,
-                defaultGameclock: mDefaultGameTimeMilliseconds,
-                running: mIsRunning,
-                startFunction: start,
-                stopFunction: stop,
-                resetGameFunction: resetGameClock,
-                endHalf: endFirstHalf,
-                fullTime: endSecondHalf,
-                setGameFunction: setGameClock,
-                setDefaultGameFunction: setDefaultGameClock,
-              ),
-              ),
-              Flexible(
-                fit: FlexFit.tight,
-                flex: 1,
-                child:
-              ScoreControl(
-                currentHomeScore: mHomeScore.toString(),
-                currentAwayScore: mAwayScore.toString(),
-  
-                addHomeFunction: () {
-                  changeHomeScore(1);
-                },
-                removeHomeFunction: () {
-                  changeHomeScore(-1);
-                },
-                resetHomeFunction: () {
-                  resetHomeScore();
-                },
-                addAwayFunction: () {
-                  changeAwayScore(1);
-                },
-                removeAwayFunction: () {
-                  changeAwayScore(-1);
-                },
-                resetAwayFunction: () {
-                  resetAwayScore();
-                },
-
-              )),
-            ],
-          ),
-           Row(
-            children: [
-              Flexible(
-                fit: FlexFit.tight,
-                flex: 1,
-                child: Switcher()
-
-              ),
-              Flexible(
-                fit: FlexFit.tight,
-                flex: 1,
-                child:ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                        primary:  kOpenScoreboardGreyDarker,
-                        onPrimary: Colors.white,
+              Column(
+                children: [
+                  Row(
+                    children: [eventTrack()],
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            width: 300,
+                            height: 500,
+                            //    child: gamePlayersHomeList()
+                          ),
+                        ],
                       ),
-                  onPressed: (() {
-                    
-                    
-               Navigator.pop(context);
-                    
-
-                  }),
-
-                  child: Text('NAZAD'),
-                ),),
+                      Column(
+                        children: [
+                          SizedBox(
+                            width: 300,
+                            height: 500,
+                            //  child: gamePlayersAwayList()
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              )
             ],
           ),
-
+          Row(
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: kOpenScoreboardGreyDarker,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: (() {
+                  Navigator.pop(context);
+                }),
+                child: Text('NAZAD'),
+              ),
+            ],
+          )
         ])));
   }
 }
