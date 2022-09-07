@@ -4,15 +4,14 @@ import 'package:semafor/text_field_decoration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:semafor/firebase/playersDataBase.dart';
 
-
 class Players extends StatelessWidget {
+  CollectionReference playersData =
+      FirebaseFirestore.instance.collection('players');
 
- CollectionReference playersData = FirebaseFirestore.instance.collection('players');
-
-   final playerName = TextEditingController();
-   final playerSurname = TextEditingController();
-   final playerNumber = TextEditingController();
-   final playerClub = TextEditingController();
+  final playerName = TextEditingController();
+  final playerSurname = TextEditingController();
+  final playerNumber = TextEditingController();
+  final playerClub = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,9 @@ class Players extends StatelessWidget {
           children: [
             Row(
               children: [
-                SizedBox(width: 25,),
+                SizedBox(
+                  width: 25,
+                ),
                 Column(
                   children: [
                     Padding(padding: EdgeInsets.symmetric(vertical: 30)),
@@ -53,7 +54,9 @@ class Players extends StatelessWidget {
                         )),
                   ],
                 ),
-                SizedBox(width: 25,),
+                SizedBox(
+                  width: 25,
+                ),
                 Column(
                   children: [
                     Padding(padding: EdgeInsets.symmetric(vertical: 30)),
@@ -90,57 +93,47 @@ class Players extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(padding: EdgeInsets.symmetric(vertical: 20)),
-                     SizedBox(width: 100, height: 60, child: ElevatedButton(onPressed: () async {
-
-
-        
-  
-                    
-
-                     }, child: Text('Dodaj')),),
-
+                    SizedBox(
+                      width: 100,
+                      height: 60,
+                      child: ElevatedButton(
+                          onPressed: () async {}, child: Text('Dodaj Sliku')),
+                    ),
                     Padding(padding: EdgeInsets.symmetric(vertical: 20)),
-                     SizedBox(width: 100, height: 60, child: ElevatedButton(onPressed: () async {
-                      addUser();
-                      clearPlayerTexts();
-                      showDialog(
-                      context: context,
-                       builder: (context) {
-                         return AlertDialog(
-
-                      content: Text('Uspjesno dodan igrac'),
-                    );
-                  },
-                );
-                    
-
-                     }, child: Text('Submit')),),
+                    SizedBox(
+                      width: 100,
+                      height: 60,
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            addUser();
+                            clearPlayerTexts();
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text('Uspjesno dodan igrac'),
+                                );
+                              },
+                            );
+                          },
+                          child: Text('Submit')),
+                    ),
                   ],
                 ),
               ],
             ),
             Row(
               children: [
-                Container(
-                  
-                  height: 500,
-                  width: 1400,
-                  child: playersDataList())
-
-
+                Container(height: 1400, width: 1400, child: playersDataList())
               ],
-
-
             )
           ],
         ),
       ),
-
-
     );
   }
 
-void clearPlayerTexts() {
+  void clearPlayerTexts() {
     // Clean up the controller when the widget is disposed.
     playerName.clear();
     playerSurname.clear();
@@ -148,41 +141,15 @@ void clearPlayerTexts() {
     playerClub.clear();
   }
 
+  Future<void> addUser() {
+    // Call the user's CollectionReference to add a new user
+    return playersData.add({
+      'playerName': playerName.text,
+      'playerSurname': playerSurname.text,
+      'playerNumber': playerNumber.text,
+      'playerClub': playerClub.text,
+    });
+  }
 
-
-
-
-
-
-
- Future<void> addUser() {
-      // Call the user's CollectionReference to add a new user
-      return playersData
-          .add({
-            'playerName': playerName.text, 
-            'playerSurname': playerSurname.text, 
-            'playerNumber': playerNumber.text ,
-            'playerClub' : playerClub.text
-          });
-    }
-
-void uploadImage(){
-
-
+  void uploadImage() {}
 }
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
-
-

@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:semafor/firebase/scorer_list.dart';
 import '../colors.dart';
 import 'dart:async';
 import 'package:firebase_storage/firebase_storage.dart';
 
 
-enum WidgetMarker { Golovi, Reklame, Ostalo }
+enum WidgetMarker { Kartoni, Reklame, Events}
 
 
 final CollectionReference kartoni =
@@ -26,7 +27,7 @@ class SwitcherBodyWidget extends StatefulWidget {
 }
 
 class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
-  WidgetMarker SelectedWidgetMarker = WidgetMarker.Golovi;
+  WidgetMarker SelectedWidgetMarker = WidgetMarker.Kartoni;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      SelectedWidgetMarker = WidgetMarker.Golovi;
+                      SelectedWidgetMarker = WidgetMarker.Kartoni;
                     });
                   },
                   child: Text('Kartoni'),
@@ -70,10 +71,10 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      SelectedWidgetMarker = WidgetMarker.Ostalo;
+                      SelectedWidgetMarker = WidgetMarker.Events;
                     });
                   },
-                  child: Text('Ostalo'),
+                  child: Text('Events'),
                 )),
           ],
         ),
@@ -86,17 +87,17 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
 
   Widget getCustomContainer() {
     switch (SelectedWidgetMarker) {
-      case WidgetMarker.Golovi:
-        return GoloviContainer();
+      case WidgetMarker.Kartoni:
+        return KartoniContainer();
       case WidgetMarker.Reklame:
         return ReklameContainer();
-      case WidgetMarker.Ostalo:
-        return OStaloContainer();
+      case WidgetMarker.Events:
+        return EventsContainer();
     }
-   // return GoloviContainer();
+   // return KartoniContainer();
   }
 
-  Widget GoloviContainer() {
+  Widget KartoniContainer() {
     return Flexible(
       fit: FlexFit.tight,
       flex: 1,
@@ -158,21 +159,86 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
     return Flexible(
       fit: FlexFit.tight,
       flex: 1,
-      child: Container(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              ElevatedButton(onPressed: (){
+                          setState(() {
 
-        color: Colors.blue,
-      ),
+                        // SWITCH SA SCOREBOARDA NA VIDEO EKRAN
+                        FirebaseFirestore.instance
+                            .collection('game')
+                            .doc('Event')
+                            .collection('Events')
+                            .doc('Video')
+                            .update({
+                          'videoIndex': 1,
+                        });
+
+
+                        //ŠALJE KOJI VIDEO PUSTUTI NA VIDEO EKRANU
+                        FirebaseFirestore.instance
+                            .collection('game')
+                            .doc('Event')
+                            .collection('Events')
+                            .doc('Video')
+                            .update({
+                          'video': 2,
+                        });
+
+                        Timer(Duration(seconds: 19), () {
+                          setState(() {
+                            
+                            FirebaseFirestore.instance
+                                .collection('game')
+                                .doc('Event')
+                                .collection('Events')
+                                .doc('Video')
+                                .update({
+                              'video': 0,
+                            });
+
+                            FirebaseFirestore.instance
+                                .collection('game')
+                                .doc('Event')
+                                .collection('Events')
+                                .doc('Video')
+                                .update({
+                              'videoIndex': 0,
+                            });
+                          });
+                        });
+                      });
+
+              }, child: Text('HEP'))
+            ],
+          )
+        ],
+      )
     );
   }
 
-  Widget OStaloContainer() {
-    return Flexible(
+  Widget EventsContainer() {
 
-      flex: 1,
-      child: Container(
-        height: 400,
-        color: Colors.blueGrey,
-      ),
-    );
+ return  Center(
+   child: Row(
+                              children: [
+                                SizedBox(width: 20,),
+                                Container(
+                                  height: 400,
+                                  width: 200,
+                                  child: scorerHomeList(),
+                                ),
+                              SizedBox(width: 20,),
+                              Container(
+                                  height: 400,
+                                  width: 200,
+                                  child: scorerAwayList(),
+                                )
+                              ],
+                            ),
+ );
+
   }
 }

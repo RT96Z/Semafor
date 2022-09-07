@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'package:semafor/views/home_view.dart';
+import 'package:semafor/views/scoreboard_switch_view.dart';
+
 
 import 'package:semafor/views/settings_view.dart';
 import 'package:semafor/views/publicScoreboardScreen.dart';
@@ -23,7 +25,7 @@ class _StartPageState extends State<StartPage> {
               child: ElevatedButton(
                 onPressed: (() {
                    Navigator.push(context,
-                       MaterialPageRoute(builder: (context) => PublicScoreboardScreen() ));
+                       MaterialPageRoute(builder: (context) => ScoreboardSwitch() ));
                 }),
                 child: Text(
                   "Prikaz semafora",
@@ -45,7 +47,7 @@ class _StartPageState extends State<StartPage> {
                   onPressed: (() {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return HomeScreen();
+                      return HomeView();
                     }));
                   }),
                   child: Text('Upravljanje semaforom',

@@ -18,11 +18,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      color: Colors.black,
+      color: Colors.white30,
       title: 'Semafor',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white   // Kasnije dodati da se ovdje mijenja pozadina.
+        scaffoldBackgroundColor: Colors.white30   // Kasnije dodati da se ovdje mijenja pozadina.
       ),
       home: StartPage(),
       //const HomeScreen(),

@@ -2,31 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:semafor/colors.dart';
 
-
-final CollectionReference gameData = FirebaseFirestore.instance.collection('game');
-
-
-
+final CollectionReference gameData =
+    FirebaseFirestore.instance.collection('game');
 
 class scorerHomeList extends StatefulWidget {
- const scorerHomeList({super.key});
-
-  
+  const scorerHomeList({super.key});
 
   @override
   State<scorerHomeList> createState() => scorerHomeListState();
 }
 
 class scorerHomeListState extends State<scorerHomeList> {
- 
-
+  Future<void> _delete(String clubId) async {
+    await gameData.doc('Event').collection('homeEvent').doc(clubId).delete();
+  }
 
   @override
-  Widget build(BuildContext context, ) {
-
+  Widget build(
+    BuildContext context,
+  ) {
     return Scaffold(
       body: FutureBuilder(
-        future: gameData.doc('Event').collection('homeEvent').orderBy('goalMinute').get(),
+        future: gameData
+            .doc('Event')
+            .collection('homeEvent')
+            .orderBy('goalMinute')
+            .get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return ListView.builder(
@@ -34,29 +35,23 @@ class scorerHomeListState extends State<scorerHomeList> {
               itemBuilder: (context, index) {
                 final DocumentSnapshot documentSnapshot =
                     streamSnapshot.data!.docs[index];
-                return  Container(
-                  // height: MediaQuery.of(context).size.height,
-                    color: Colors.black,
-                    child: ListTile(
+                return  ListTile(
+                      title: Row(
+                        children: [
+                          Text(documentSnapshot['goalMinute'],
+                              style: scorerListPureWhite),
+                          Text("' - ", style: scorerListPureWhite),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(documentSnapshot['scorer'],
+                              style: scorerListPureWhite),
+                        ],
+                      ),
+                      onLongPress: () {
+                        _delete(documentSnapshot.id);
+                      });
 
-                        title:  
-                            Row(
-                              children: [
-                                Text(documentSnapshot['goalMinute'], style: scorerListPureWhite),
-                                Text("' - ", style: scorerListPureWhite),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(documentSnapshot['scorer'], style: scorerListPureWhite),
-                              ],
-                            ),
-                          
-                        ),
-                            
-                   
-                      
-                  );
-                
               },
             );
           }
@@ -68,29 +63,31 @@ class scorerHomeListState extends State<scorerHomeList> {
       ),
     );
   }
-
 }
 
-
 class scorerAwayList extends StatefulWidget {
- const scorerAwayList({super.key});
-
-  
+  const scorerAwayList({super.key});
 
   @override
   State<scorerAwayList> createState() => scorerAwayListState();
 }
 
 class scorerAwayListState extends State<scorerAwayList> {
- 
-
+  Future<void> _delete(String clubId) async {
+    await gameData.doc('Event').collection('awayEvent').doc(clubId).delete();
+  }
 
   @override
-  Widget build(BuildContext context, ) {
-
+  Widget build(
+    BuildContext context,
+  ) {
     return Scaffold(
       body: FutureBuilder(
-        future: gameData.doc('Event').collection('awayEvent').orderBy('goalMinute').get(),
+        future: gameData
+            .doc('Event')
+            .collection('awayEvent')
+            .orderBy('goalMinute')
+            .get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return ListView.builder(
@@ -98,21 +95,28 @@ class scorerAwayListState extends State<scorerAwayList> {
               itemBuilder: (context, index) {
                 final DocumentSnapshot documentSnapshot =
                     streamSnapshot.data!.docs[index];
-                return  
-                            Container(
-                              color: Colors.black,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(documentSnapshot['goalMinute'], style: scorerListPureWhite),
-                                  Text("' - ", style: scorerListPureWhite),
-                                  Text(documentSnapshot['scorer'], style: scorerListPureWhite),
-                                ],
-                              ),
-                            );
+                                return Container(
+                  // height: MediaQuery.of(context).size.height,
+
+
+                  child: ListTile(
                     
-                
-                
+                      title: Row(
+                        children: [
+                          Text(documentSnapshot['goalMinute'],
+                              style: scorerListPureWhite),
+                          Text("' - ", style: scorerListPureWhite),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(documentSnapshot['scorer'],
+                              style: scorerListPureWhite),
+                        ],
+                      ),
+                      onLongPress: () {
+                        _delete(documentSnapshot.id);
+                      }),
+                );
               },
             );
           }
@@ -124,5 +128,4 @@ class scorerAwayListState extends State<scorerAwayList> {
       ),
     );
   }
-
 }

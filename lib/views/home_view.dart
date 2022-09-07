@@ -1,14 +1,16 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:semafor/components/gameClock.dart';
 
 import 'package:semafor/components/control_score.dart';
 
 import 'package:semafor/firebase/game_list.dart';
-import 'package:semafor/states/home_state.dart';
+
 import 'package:semafor/colors.dart';
 import 'package:semafor/states/switch_state.dart';
 
-class HomeView extends HomeState {
+class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +55,7 @@ class HomeView extends HomeState {
                           Container(
                             width: 300,
                             height: 500,
-                            //    child: gamePlayersHomeList()
+                                child: gamePlayersHomeList()
                           ),
                         ],
                       ),
@@ -62,7 +64,7 @@ class HomeView extends HomeState {
                           SizedBox(
                             width: 300,
                             height: 500,
-                            //  child: gamePlayersAwayList()
+                         //     child: gamePlayersAwayList()
                           )
                         ],
                       ),
@@ -80,7 +82,7 @@ class HomeView extends HomeState {
                   foregroundColor: Colors.white,
                 ),
                 onPressed: (() {
-                  Navigator.pop(context);
+                  
                 }),
                 child: Text('NAZAD'),
               ),

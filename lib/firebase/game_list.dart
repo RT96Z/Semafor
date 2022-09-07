@@ -18,7 +18,7 @@ class gamePlayersHomeList extends StatefulWidget {
 }
 
 class gamePlayersHomeListState extends State<gamePlayersHomeList> {
-
+    int? _selectedIndexHome;
   Future<String?> getHome() async {
     var a = await clubData.doc('Home').get();
     setState(() {
@@ -29,6 +29,7 @@ class gamePlayersHomeListState extends State<gamePlayersHomeList> {
 
   @override
   Widget build(BuildContext context) {
+
     getHome();
     return Scaffold(
       body: FutureBuilder(
@@ -91,8 +92,9 @@ class gamePlayersHomeListState extends State<gamePlayersHomeList> {
                       ],
                     )),
                     subtitle: Text(documentSnapshot['playerClub']),
-                    selected: false,
-                    onLongPress: () {
+                    selected: index == _selectedIndexHome,
+                    onTap: () {
+                      _selectedIndexHome = index;
                       selectedPlayer = documentSnapshot['playerSurname'];
                       selectedClub = documentSnapshot['playerClub'];
          
@@ -121,7 +123,7 @@ class gamePlayersAwayList extends StatefulWidget {
 }
 
 class gamePlayersAwayListState extends State<gamePlayersAwayList> {
-  
+      int _selectedIndexAway = 0;
 
   String? awayPlayers;
   Future<String?> getAway() async {
@@ -134,6 +136,7 @@ class gamePlayersAwayListState extends State<gamePlayersAwayList> {
 
   @override
   Widget build(BuildContext context) {
+
     getAway();
     return Scaffold(
       body: FutureBuilder(
@@ -142,7 +145,7 @@ class gamePlayersAwayListState extends State<gamePlayersAwayList> {
             .get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
-            return ListView.builder(
+           return ListView.builder(
               itemCount: streamSnapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 final DocumentSnapshot documentSnapshot =
@@ -187,7 +190,7 @@ class gamePlayersAwayListState extends State<gamePlayersAwayList> {
                         Row(
                           children: [
                             Text(documentSnapshot['playerName']),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(documentSnapshot['playerSurname']),
@@ -196,11 +199,12 @@ class gamePlayersAwayListState extends State<gamePlayersAwayList> {
                       ],
                     )),
                     subtitle: Text(documentSnapshot['playerClub']),
-                    selected: false,
-                    onLongPress: () {
+                    selected: index == _selectedIndexAway,
+                    onTap: () {
+                      _selectedIndexAway = index;
                       selectedPlayer = documentSnapshot['playerSurname'];
                       selectedClub = documentSnapshot['playerClub'];
-
+         
                     },
                   ),
                 );

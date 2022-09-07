@@ -145,7 +145,7 @@ class playersDataListState extends State<playersDataList> {
                             )
                           ],
                         ),
-                        SizedBox(
+                       const SizedBox(
                           width: 15,
                         ),
                         Row(

@@ -92,11 +92,7 @@ class PostaveState extends State<Postave>{
                                   width: 50,
                                   height: 50,
                                 ),
-                                ElevatedButton(onPressed: (){
-
-                            //     FirebaseFirestore.instance.collection('game').doc('Home').update({'homeClubName': clubForHome});
-                            //      FirebaseFirestore.instance.collection('game').doc('Away').update({'awayClubName': clubForAway});
-                                }, child: Text("Save"))
+                              
                               ],
                             ),
             Column(

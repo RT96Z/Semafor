@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:semafor/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'dart:async';
+import 'package:video_player/video_player.dart';
+
+late VideoPlayerController _controller;
+
+
+
 
 final CollectionReference gameData =
     FirebaseFirestore.instance.collection('game');
@@ -14,6 +20,11 @@ class ControlScore extends StatefulWidget {
 }
 
 class _ControlScoreState extends State<ControlScore> {
+
+
+
+ 
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,12 +58,55 @@ class _ControlScoreState extends State<ControlScore> {
                       foregroundColor: Colors.white,
                     ),
                     label: Text("", textAlign: TextAlign.left), //GOAL
-                    onPressed: () {
+                    onPressed: () async {
+
                       gameData
                           .doc('Home')
                           .update({'goals': FieldValue.increment(1)});
 
-                      AudioPlayer().play(AssetSource('assets/ozbiljnoo2.wav'));
+                      setState(() {
+                        //ŠALJE KOJI VIDEO PUSTUTI NA VIDEO EKRANU
+                        FirebaseFirestore.instance
+                            .collection('game')
+                            .doc('Event')
+                            .collection('Events')
+                            .doc('Video')
+                            .update({
+                          'video': 1,
+                        });
+                        // SWITCH SA SCOREBOARDA NA VIDEO EKRAN
+                        FirebaseFirestore.instance
+                            .collection('game')
+                            .doc('Event')
+                            .collection('Events')
+                            .doc('Video')
+                            .update({
+                          'videoIndex': 1,
+                        });
+                        Timer(Duration(seconds: 19), () {
+                          setState(() {
+                                                    FirebaseFirestore.instance
+                            .collection('game')
+                            .doc('Event')
+                            .collection('Events')
+                            .doc('Video')
+                            .update({
+                          'video': 0,
+                        });
+
+                            FirebaseFirestore.instance
+                                .collection('game')
+                                .doc('Event')
+                                .collection('Events')
+                                .doc('Video')
+                                .update({
+                              'videoIndex': 0,
+                            });
+                          });
+                        });
+                      });
+
+                   
                     }),
               ),
               SizedBox(
@@ -93,7 +147,9 @@ class _ControlScoreState extends State<ControlScore> {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 50,),
+              SizedBox(
+                height: 50,
+              ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kOpenScoreboardGreyDarker,
@@ -107,6 +163,7 @@ class _ControlScoreState extends State<ControlScore> {
                 ),
                 onPressed: () {
                   gameData.doc('Home').update({'goals': 0});
+                  deleteAllHome();
                 },
               ),
             ],
@@ -124,7 +181,9 @@ class _ControlScoreState extends State<ControlScore> {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 50,),
+              SizedBox(
+                height: 50,
+              ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kOpenScoreboardGreyDarker,
@@ -138,6 +197,7 @@ class _ControlScoreState extends State<ControlScore> {
                 ),
                 onPressed: () {
                   gameData.doc('Away').update({'goals': 0});
+                  deleteAllAway();
                 },
               ),
             ],
@@ -197,4 +257,20 @@ class _ControlScoreState extends State<ControlScore> {
       ),
     );
   }
+
+
+  Future<void> deleteAllHome() async {
+var collection = FirebaseFirestore.instance.collection('game').doc('Event').collection('homeEvent');
+var snapshots = await collection.get();
+for (var doc in snapshots.docs) {
+  await doc.reference.delete();
+}
+}
+  Future<void> deleteAllAway() async {
+var collection = FirebaseFirestore.instance.collection('game').doc('Event').collection('awayEvent');
+var snapshots = await collection.get();
+for (var doc in snapshots.docs) {
+  await doc.reference.delete();
+}
+}
 }

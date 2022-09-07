@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:semafor/components/time.dart';
+import 'package:semafor/components/video.dart';
 
 import 'package:semafor/firebase/scorer_list.dart';
 
@@ -61,6 +62,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
             IndexedStack(
               index: indexPosition,
               children: [
+                // 0 INDEX
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -140,7 +142,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                             child: Text(
                                               "${data['goals']}",
                                               style: TextStyle(
-                                                  fontSize: 100,
+                                                  fontSize: 150,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold),
                                               textAlign: TextAlign.center,
@@ -153,10 +155,12 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                           // red za zapisnik domaćeg tima
                           Row(
                             children: [
-                              Container(
-                                height: 400,
-                                width: 600,
-                                child: scorerHomeList(),
+                              Center(
+                                child: Container(
+                                  height: 400,
+                                  width: 600,
+                                  child: scorerHomeList(),
+                                ),
                               )
                             ],
                           )
@@ -165,12 +169,14 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                       //stupac za dvotočje/crticu i vrijeme
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
                             height: 20,
                           ),
+                          
                           Text(
-                            ' : ',
+                            ':',
                             style: TextStyle(
                                 height: 2, fontSize: 90, color: Colors.white),
                           ),
@@ -179,7 +185,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                           ),
                           Container(
                               height: 100,
-                              width: 100,
+                              width: 250,
                               child: ShowTime())
                         ],
                       ),
@@ -208,7 +214,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                             child: Text(
                                               "${data['goals']}",
                                               style: TextStyle(
-                                                  fontSize: 100,
+                                                  fontSize: 150,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold),
                                               textAlign: TextAlign.center,
@@ -278,6 +284,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                     ],
                   ),
                 ),
+                //YELLOW CARD - 1 INDEX
                 Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
@@ -288,6 +295,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                         fit: BoxFit.fitWidth,
                       ),
                     )),
+                //RED CARD - 2 INDEX
                 Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
@@ -298,6 +306,13 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                         fit: BoxFit.fitWidth,
                       ),
                     )),
+
+                //GOAL ANIMATION - 3 - INDEX
+                SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: VideoScreen(),
+                )
               ],
             ),
           ],

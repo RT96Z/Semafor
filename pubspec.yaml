@@ -46,8 +46,10 @@ dependencies:
   file_picker: ^5.0.1
   image_picker_web: ^2.1.1
   firebase: ^9.0.3
-  audioplayers: ^1.0.1
+  
   intl: ^0.17.0
+ 
+  video_player: ^2.4.7
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +76,9 @@ flutter:
      - res/
      - assets/zuti.png
      - assets/crveni.png
+     - assets/video/
+     - assets/audio/goal_audio.mp3
+     - assets/taxi.mp3
  
   #   - images/a_dot_ham.jpeg
 
