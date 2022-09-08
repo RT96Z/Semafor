@@ -50,6 +50,7 @@ dependencies:
   intl: ^0.17.0
  
   video_player: ^2.4.7
+  image_picker: ^0.8.5+3
 
 dev_dependencies:
   flutter_test:
@@ -73,12 +74,12 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-     - res/
+     - assets/pic/defaultPlayer.png
      - assets/zuti.png
      - assets/crveni.png
      - assets/video/
      - assets/audio/goal_audio.mp3
-     - assets/taxi.mp3
+
  
   #   - images/a_dot_ham.jpeg
 

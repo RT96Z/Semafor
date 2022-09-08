@@ -1,7 +1,14 @@
-import 'dart:async';
+import 'dart:html';
+import 'dart:typed_data';
+
+import 'package:firebase_storage/firebase_storage.dart';
+
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as Path;
+import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
-import 'package:semafor/firebase/scorer_list.dart';
+
 
 class Time extends StatefulWidget {
   @override
@@ -9,189 +16,109 @@ class Time extends StatefulWidget {
 }
 
 class TimeState extends State<Time> {
-  Duration duration = Duration();
-  Timer? timer;
+  String? uploadedPhotoUrl;
 
-  final myController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
+PickedFile? pickedFile;
+chooseImage() async {
+pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
 
-    reset();
-  }
+  setState(() {
+    
+  });
+}
 
-  void reset() {
-    setState(() => duration = Duration());
-  }
+uploadImageToStorage() async {
 
-  void addTime() {
-    final addSeconds = 1;
+Reference _reference = FirebaseStorage.instance.ref()
+        .child('images/${Path.basename(pickedFile!.path)}');
+    await _reference
+        .putData(
+      await pickedFile!.readAsBytes(),
+      SettableMetadata(contentType: 'image/*'),
+    )
+        .whenComplete(() async {
+      await _reference.getDownloadURL().then((value) {
+        uploadedPhotoUrl = value;
+      });
+    });
 
+}
+
+Uint8List webImage= Uint8List(8);
+
+Future<void> IMGP()async{
+
+  final ImagePicker picker = ImagePicker();
+  XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  if(picker !=null){
+
+    var f = await image!.readAsBytes();
     setState(() {
-      final seconds = duration.inSeconds + addSeconds;
-
-      duration = Duration(seconds: seconds);
+      webImage= f;
     });
   }
+}
 
-  void startTimer({bool resets = true}) {
-    if (resets) {
-      reset();
-    }
 
-    timer = Timer.periodic(Duration(seconds: 1), (_) => addTime());
-  }
+Future<void> IMGU()async{
 
-  void stopTimer({bool resets = true}) {
-    if (resets) {
-      reset();
-    }
 
-    setState(() {
-      timer?.cancel();
+var uploadTask = FirebaseStorage.instance.ref().child('AAAA');
+
+await uploadTask.putData(webImage).whenComplete(() async {
+      await uploadTask.getDownloadURL().then((value) {
+        uploadedPhotoUrl = value;
+      });
     });
-  }
 
-  void firstHalfEnd() {
-    setState(() => duration = Duration(minutes: 45, seconds: 00));
-    stopTimer(resets: false);
-  }
+}
 
-  void secondHalfEnd() {
-    setState(() => duration = Duration(minutes: 90, seconds: 00));
-    stopTimer(resets: false);
-  }
 
-  void addMinute() {
-    setState(() {
-      duration = duration + Duration(minutes: 1);
-    });
-  }
 
-  void subtractMinute() {
-    setState(() {
-      duration = duration - Duration(minutes: 1);
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.green,
-        body:
-           Row(
-                            children: [
-                              Container(
-                                height: 400,
-                                width: 200,
-                                child: scorerHomeList(),
-                              ),
-                            SizedBox(width: 20,),
-                            Container(
-                                height: 400,
-                                width: 200,
-                                child: scorerAwayList(),
-                              )
-                            ],
-                          )
 
-          
-     
-      
-      );
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+    
+                       Container(
+                        
+                        width: 100,
+                        height:     150,
+                        child: Center(child: Image.memory(webImage, fit: BoxFit.cover,),),
+                      ),
+                      Text('$uploadedPhotoUrl'),
+            Row(
+              children: [
+                //UNOS NORMALNA SLIKA
+                Column(
+                  children: [
+                    SizedBox(height: 30,),
+                    ElevatedButton(onPressed: (){IMGP();}, child: const Text('SELECT')),
+                    SizedBox(height: 32,),
+                    ElevatedButton(onPressed: (){IMGU();}, child: const Text('UPLOAD')),
+                  ],
+                ),
+                SizedBox(width: 20,),
 
-  Widget buiildTime() {
-    String twoDigits(int n) => n.toString().padLeft(
-        2, '0'); // pretvara jednoznamenkaste brojeve u "dvoznamenkaste" 9 -> 09
-    final minutes = twoDigits(duration.inMinutes.remainder(100));
-    final seconds = twoDigits(duration.inSeconds.remainder(60));
-    setState(() {
-      // time.doc('Time').collection('minutes').doc('minutes').set({'minutes': '$minutes'});
-      // time.doc('Time').update({'seconds': '$seconds'});
-    });
-    return Text(
-      '$minutes:$seconds',
-      style: TextStyle(fontSize: 20),
-    );
-  }
-
-  Widget buildButtons() {
-    bool time_going = timer == null ? false : timer!.isActive;
-    bool time_stops = duration.inSeconds == 0;
-
-    return time_going || !time_stops
-        ? Column( 
-          
-
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      child: Text(time_going ? 'PAUSE' : 'RESUME'),
-                      onPressed: () {
-                        if (time_going) {
-                          stopTimer(resets: false);
-                        } else {
-                          startTimer(resets: false);
-                        }
-                      }),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  ElevatedButton(
-                    child: Text("RESET"),
-                    onPressed: reset,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  TextButton(
-                    onPressed: firstHalfEnd,
-                    child: Text('1. Half END'),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.blue),
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                      child: TextButton(
-                    onPressed: secondHalfEnd,
-                    child: Text('2. Half END'),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.blue),
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      onPressed: addMinute, child: Text('+1 minute')),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  ElevatedButton(
-                      onPressed: subtractMinute, child: Text('-1 minute'))
-                ],
-              )
-            ],
-          )
-        : TextButton(
-            onPressed: startTimer,
-            child: Text('Start Timer!'),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-            ));
-  }
+                //UNOS 8 BIT
+                Column(
+                  children: [
+                    SizedBox(height: 30,),
+                    ElevatedButton(onPressed: (){IMGP();}, child: const Text('SELECT')),
+                    SizedBox(height: 32,),
+                    ElevatedButton(onPressed: (){IMGU();}, child: const Text('UPLOAD')),
+                                      ],
+                                    ),
+              ],
+            ),
+          ]),
+      ));
 }

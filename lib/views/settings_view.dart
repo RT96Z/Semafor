@@ -129,7 +129,7 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
     return Flexible(
       fit: FlexFit.tight,
       flex: 1,
-      child: ShowTime()
+      child: Time()
     );
   }
 }
