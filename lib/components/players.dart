@@ -1,14 +1,15 @@
 import 'dart:async';
+
 import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:semafor/firebase/game_list.dart';
+
 import 'package:semafor/text_field_decoration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:semafor/firebase/playersDataBase.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as Path;
+
 
 class Players extends StatefulWidget {
   @override
@@ -17,33 +18,42 @@ class Players extends StatefulWidget {
 
 class _PlayersState extends State<Players> {
   String uploadedPhotoUrl = '';
-  Uint8List webImage = Uint8List(8);
-  XFile? image;
+Uint8List webImage = Uint8List(8);
 
-  Future<void> IMGP() async {
-    final ImagePicker picker = ImagePicker();
-   image = await picker.pickImage(source: ImageSource.gallery);
-    if (picker != null) {
-      var f = await image!.readAsBytes();
+
+// SLIKU IZABIREMO NORMANLO PREKO IMAGE PICKERA
+XFile? pickedFile;
+chooseImage() async {
+pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
+// SLIKU PRETVARAMO U Unit8List kako bi je kasnije lakše pokazali prije uploada
+      var f = await pickedFile!.readAsBytes();
       setState(() {
         webImage = f;
       });
-    }
-  }
+}
 
-  Future<String> IMGU() async {
-    var uploadTask = FirebaseStorage.instance
-        .ref()
-        .child('Players/${playerClub.text}/${playerNumber.text}');
 
-    var AAA = await uploadTask.putData(webImage);
 
-    var downloadURL = await (await AAA).ref.getDownloadURL();
+uploadImageToStorage() async {
 
-    uploadedPhotoUrl = downloadURL;
+Reference _reference = FirebaseStorage.instance.ref().child('Players/${playerClub.text}/${playerNumber.text}');
+//Sliku uploadamo u odabranom formatu, u nasem slucaju jpeg formatu.
+    await _reference
+        .putData(
+      await pickedFile!.readAsBytes(),
+      SettableMetadata(contentType: 'image/jpeg'),
+    ).whenComplete(() async {
+      await _reference.getDownloadURL().then((value) {
+        uploadedPhotoUrl = value;
+      });
+    });
 
-    return downloadURL;
-  }
+  
+
+}
+
 
   CollectionReference playersData =
       FirebaseFirestore.instance.collection('players');
@@ -130,7 +140,7 @@ class _PlayersState extends State<Players> {
                       children: [
                         Container(
                           child:
-                            image == null
+                            pickedFile == null
                                   ?  SizedBox(
                                     width: 300,
                                     height: 400,
@@ -169,7 +179,7 @@ class _PlayersState extends State<Players> {
                           height: 60,
                           child: ElevatedButton(
                               onPressed: () {
-                                IMGP();
+                                chooseImage();
                               },
                               child: Text('Dodaj Sliku')),
                         ),
@@ -179,7 +189,7 @@ class _PlayersState extends State<Players> {
                           height: 60,
                           child: ElevatedButton(
                               onPressed: () {
-                                IMGU();
+                                uploadImageToStorage();
                                 Timer(Duration(seconds: 3), () {
                                   addUser();
                                   clearPlayerTexts();
@@ -196,7 +206,8 @@ class _PlayersState extends State<Players> {
                               child: Text('Submit')),
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(height: 20,)
                   ],
                 ),
                 Padding(padding: EdgeInsets.symmetric(horizontal: 10)),

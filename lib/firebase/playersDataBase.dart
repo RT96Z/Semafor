@@ -113,12 +113,8 @@ class playersDataListState extends State<playersDataList> {
                     streamSnapshot.data!.docs[index];
                 return Card(
                   margin: const EdgeInsets.all(1),
-                  child: ListTile(
-                    title: SizedBox(
-                        child: Row(
-                      children: [
-                        Column(
-                          children: [
+                  child: Row(
+                    children: [
                             Container(
                               height: 50.0,
                               decoration: BoxDecoration(
@@ -142,27 +138,59 @@ class playersDataListState extends State<playersDataList> {
                                   ],
                                 ),
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          
                        const SizedBox(
                           width: 15,
                         ),
-                        Row(
-                          children: [
-                            Text(documentSnapshot['playerName']),
+
+
+                       SizedBox(
+                          width: 150,
+                          height: 50,
+                          child:  Center(
+                                      child: Text(documentSnapshot['playerName']) ,
+                                    )
+                        ),
+                           
                             SizedBox(
                               width: 5,
                             ),
-                            Text(documentSnapshot['playerSurname']),
-                          ],
+                       SizedBox(
+                          width: 150,
+                          height: 50,
+                          child: Center(
+                                      child: Text(documentSnapshot['playerSurname']),
+                                    )  
                         ),
-                      ],
-                    )),
-                    subtitle: Text(documentSnapshot['playerClub']),
-                    trailing: SizedBox(
-                      width: 100,
+                           
+                     SizedBox(
+                          width: 150,
+                          height: 50,
+                          child:  Center(
+                                      child: Text(documentSnapshot['playerClub']),
+                                    )  
+                        ),
+
+                    SizedBox(width: 100,),
+                     SizedBox(
+                          width: 150,
+                          height: 100,
+                          child:  Center(
+                                      child:
+                                     
+                                      documentSnapshot['playerPicture'] != null ? Image.network('${documentSnapshot['playerPicture']}', fit: BoxFit.cover) : 
+                                      Image.asset(
+                                            'assets/pic/defaultPlayer.png',
+                                            fit: BoxFit.cover,
+                                          ),
+                                    )  
+                        ),
+     
+                  Flexible(
+                     flex: 3,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
                               icon: const Icon(Icons.edit),
@@ -172,7 +200,7 @@ class playersDataListState extends State<playersDataList> {
                               onPressed: () => _delete(documentSnapshot.id)),
                         ],
                       ),
-                    ),
+                    )]
                   ),
                 );
               },
