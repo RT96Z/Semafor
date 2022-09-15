@@ -4,6 +4,8 @@ import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:semafor/components/drop_down_clubs.dart';
 
 import 'package:semafor/text_field_decoration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,7 +40,7 @@ pickedFile = await ImagePicker().pickImage(
 
 uploadImageToStorage() async {
 
-Reference _reference = FirebaseStorage.instance.ref().child('Players/${playerClub.text}/${playerNumber.text}');
+Reference _reference = FirebaseStorage.instance.ref().child('Players/${dataOfPlayers.club}/${playerNumber.text}');
 //Sliku uploadamo u odabranom formatu, u nasem slucaju jpeg formatu.
     await _reference
         .putData(
@@ -65,6 +67,7 @@ Reference _reference = FirebaseStorage.instance.ref().child('Players/${playerClu
   final playerNumber = TextEditingController();
 
   final playerClub = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -110,25 +113,22 @@ Reference _reference = FirebaseStorage.instance.ref().child('Players/${playerClu
                         width: 350,
                         height: 40,
                         child: TextField(
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                           style: TextStyle(
                             color: Colors.red,
                           ),
                           decoration: textFieldDecoration,
                           controller: playerNumber,
                         )),
+                   
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     Text('PLAYER CLUB'),
                     Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                     SizedBox(
                         width: 350,
-                        height: 40,
-                        child: TextField(
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                          decoration: textFieldDecoration,
-                          controller: playerClub,
-                        )),
+                        height: 50,
+               
+                        child:  DropDownClubs(),)
                   ],
                 ),
                 SizedBox(
@@ -189,10 +189,31 @@ Reference _reference = FirebaseStorage.instance.ref().child('Players/${playerClu
                           height: 60,
                           child: ElevatedButton(
                               onPressed: () {
+                      showDialog(
+                      context: context,
+                      builder: (context) {
+                        Future.delayed(Duration(milliseconds: 2900), () {
+                          Navigator.of(context).pop(true);
+                        });
+                        return AlertDialog(
+                       title:   Center(
+            child: CircularProgressIndicator(),
+          )
+                        );
+                      });
+
                                 uploadImageToStorage();
                                 Timer(Duration(seconds: 3), () {
+
+
+                       
+
+
                                   addUser();
                                   clearPlayerTexts();
+                                  setState(() {
+                                    pickedFile=null;
+                                  });
                                   showDialog(
                                     context: context,
                                     builder: (context) {
@@ -216,13 +237,12 @@ Reference _reference = FirebaseStorage.instance.ref().child('Players/${playerClu
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [],
                 ),
-                Column(
-                  children: [],
-                )
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 Container(height: 1400, width: 1200, child: playersDataList())
               ],
             )
@@ -245,8 +265,8 @@ Reference _reference = FirebaseStorage.instance.ref().child('Players/${playerClu
     return playersData.add({
       'playerName': playerName.text,
       'playerSurname': playerSurname.text,
-      'playerNumber': playerNumber.text,
-      'playerClub': playerClub.text,
+      'playerNumber': int.parse(playerNumber.text), //sprema na bazu kao int kako bi se omogućilo sortiranje preko broja igrača
+      'playerClub': dataOfPlayers.club,
       'playerPicture': uploadedPhotoUrl,
     });
   }

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:semafor/firebase/game_list.dart';
+import 'package:semafor/firebase/reordable_list.dart';
 
 
 
@@ -25,140 +27,147 @@ class PostaveState extends State<Postave>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body:  SingleChildScrollView(
         child: Row(
-          children: [
-            Column(
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                FutureBuilder<QuerySnapshot>(
-                   future: postaveUtakmice.get(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot)  {
-                      if (streamSnapshot.hasData) {
-                         List<DropdownMenuItem> clubItems = [];
-                        for (int i = 0; i < streamSnapshot.data!.docs.length; i++) {
-                          DocumentSnapshot snapPostave = streamSnapshot.data!.docs[i];
-                          clubItems.add(
-                            DropdownMenuItem(
-                            value: "${snapPostave.get('clubName')}",
-                            child: Text(
-                              snapPostave.get('clubName'),
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                          ));
-                        }
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.accessibility_new,
-                                size: 25, color: Colors.amber),
-                            SizedBox(
-                              width: 50,
-                            ),
-                            DropdownButton(
-                                items: clubItems,
-                                onChanged: (clubValues) {
-                                  setState(() {
-                                    selectedClub = clubValues;
-
-                                    FirebaseFirestore.instance.collection('game').doc('Home').update({'homeClubName': selectedClub, });
-                                  });
-                                },
-                                value: selectedClub,
-                                isExpanded: false,
-                                hint: Text(
-                              "Choose Club",
-                              style: TextStyle(color: Colors.black)),
-                                )
-                          ],
-                        );
-                      } 
-
-                      return const Center(
-                      child: CircularProgressIndicator(),
-          );
-                    }),
-              
-          
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 50,
-                                  height: 50,
-                                ),
-                              
-                              ],
-                            ),
-            Column(
-              children: [
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  SizedBox(
+                    height: 50,
+                  ),
+                  FutureBuilder<QuerySnapshot>(
+                     future: postaveUtakmice.get(),
+                      builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot)  {
+                        if (streamSnapshot.hasData) {
+                           List<DropdownMenuItem> clubItems = [];
+                          for (int i = 0; i < streamSnapshot.data!.docs.length; i++) {
+                            DocumentSnapshot snapPostave = streamSnapshot.data!.docs[i];
+                            clubItems.add(
+                              DropdownMenuItem(
+                              value: "${snapPostave.get('clubName')}",
+                              child: Text(
+                                snapPostave.get('clubName'),
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ));
+                          }
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.accessibility_new,
+                                  size: 25, color: Colors.amber),
+                              SizedBox(
+                                width: 50,
+                              ),
+                              DropdownButton(
+                                  items: clubItems,
+                                  onChanged: (clubValues) {
+                                    setState(() {
+                                      selectedClub = clubValues;
+      
+                                      FirebaseFirestore.instance.collection('game').doc('Home').update({'homeClubName': selectedClub, });
+                                    });
+                                  },
+                                  value: selectedClub,
+                                  isExpanded: false,
+                                  hint: Text(
+                                "Choose Club",
+                                style: TextStyle(color: Colors.black)),
+                                  )
+                            ],
+                          );
+                        } 
+      
+                        return const Center(
+                        child: CircularProgressIndicator(),
+            );
+                      }),
                 
-                SizedBox(
-                  height: 50,
-                ),
-                FutureBuilder<QuerySnapshot>(
-                    future: postaveUtakmice.get(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot)  {
-                      if (streamSnapshot.hasData) {
-                         List<DropdownMenuItem> clubItems = [];
-                        for (int i = 0; i < streamSnapshot.data!.docs.length; i++) {
-                          DocumentSnapshot snapPostave = streamSnapshot.data!.docs[i];
-                          clubItems.add(
-                            DropdownMenuItem(
-                            value: "${snapPostave.get('clubName')}",
-                            child: Text(
-                              snapPostave.get('clubName'),
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                          ));
-                        }
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.accessibility_new,
-                                size: 25, color: Colors.amber),
-                            SizedBox(
-                              width: 50,
-                            ),
-                            DropdownButton(
-                                items: clubItems,
-                                onChanged: (clubValues) {
-                           
-                      // OvDJE ROKNI DA UPDATEA LINK OD KLUBA NA GOSTUJUĆI KLUB 
-                                  setState(() {
-                                    selectedAwayClub = clubValues;
-                                    FirebaseFirestore.instance.collection('game').doc('Away').update({'awayClubName': selectedAwayClub});
-                                   
-                                  });
-                                },
-                                value: selectedAwayClub,
-                                isExpanded: false,
-                                hint: Text(
-                              "Choose Club",
-                              style: TextStyle(color: Colors.black)),
-                                )
-                          ],
-                        );
-                      } 
+            SizedBox(height: 20,),
+            SizedBox(height:1000, width: 350, child:  ReorderPlayerHomeLIst()),
+            
+                ],
+              ),
+              Column(
+           
 
-                      return const Center(
-                      child: CircularProgressIndicator(),
-          );
-                    }),
-              
-          
-              
+                                children: [
+                                  SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                                
+                                ],
+                              ),
+              Column(
 
-              ],
-            )
-          ],
-        ),
+              mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  
+                  SizedBox(
+                    height: 50,
+                  ),
+                  FutureBuilder<QuerySnapshot>(
+                      future: postaveUtakmice.get(),
+                      builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot)  {
+                        if (streamSnapshot.hasData) {
+                           List<DropdownMenuItem> clubItems = [];
+                          for (int i = 0; i < streamSnapshot.data!.docs.length; i++) {
+                            DocumentSnapshot snapPostave = streamSnapshot.data!.docs[i];
+                            clubItems.add(
+                              DropdownMenuItem(
+                              value: "${snapPostave.get('clubName')}",
+                              child: Text(
+                                snapPostave.get('clubName'),
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ));
+                          }
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.accessibility_new,
+                                  size: 25, color: Colors.amber),
+                              SizedBox(
+                                width: 50,
+                              ),
+                              DropdownButton(
+                                  items: clubItems,
+                                  onChanged: (clubValues) {
+                             
+                        
+                                    setState(() {
+                                      selectedAwayClub = clubValues;
+                                      FirebaseFirestore.instance.collection('game').doc('Away').update({'awayClubName': selectedAwayClub});
+                                     
+                                    });
+                                  },
+                                  value: selectedAwayClub,
+                                  isExpanded: false,
+                                  hint: Text(
+                                "Choose Club",
+                                style: TextStyle(color: Colors.black)),
+                                  )
+                            ],
+                          );
+                        } 
+      
+                        return const Center(
+                        child: CircularProgressIndicator(),
+            );
+                      }),
+                
+             SizedBox(height: 20,),
+            SizedBox(height: 1000, width: 350, child:  ReorderPlayerAwayLIst()),
+                
+      
+                ],
+              )
+            ],
+          ),
       ),
+      
     );
   }
 

@@ -34,7 +34,7 @@ class gamePlayersHomeListState extends State<gamePlayersHomeList> {
     return Scaffold(
       body: FutureBuilder(
         future: igraciUtakmica
-            .where('playerClub', isEqualTo: homePlayers)
+            .where('playerClub', isEqualTo: homePlayers).orderBy('playerNumber')
             .get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
@@ -44,41 +44,24 @@ class gamePlayersHomeListState extends State<gamePlayersHomeList> {
                 final DocumentSnapshot documentSnapshot =
                     streamSnapshot.data!.docs[index];
                 return Card(
+                  
                   margin: const EdgeInsets.all(1),
                   child: ListTile(
-                    title: SizedBox(
-                        child: Row(
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              height: 50.0,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: <Widget>[
-                                    const Icon(
-                                      Icons.circle,
-                                      color: Colors.blue,
-                                      size: 50.0,
-                                    ),
-                                    Text(
-                                      documentSnapshot['playerNumber'],
+                    leading: CircleAvatar(
+                      child: Text(
+                                      documentSnapshot['playerNumber'].toString(),
                                       style: const TextStyle(
                                           fontSize: 18, color: Colors.white),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                                  
+                    ),
+                            
+                    title: SizedBox(
+                        child: Row(
+                      children: [
+
                         const SizedBox(
-                          width: 15,
+                          width: 25,
                         ),
                         Row(
                           children: [
@@ -91,7 +74,7 @@ class gamePlayersHomeListState extends State<gamePlayersHomeList> {
                         ),
                       ],
                     )),
-                    subtitle: Text(documentSnapshot['playerClub']),
+  
                     selected: index == _selectedIndexHome,
                     onTap: () {
                       _selectedIndexHome = index;
@@ -141,7 +124,7 @@ class gamePlayersAwayListState extends State<gamePlayersAwayList> {
     return Scaffold(
       body: FutureBuilder(
         future: igraciUtakmica
-            .where('playerClub', isEqualTo: awayPlayers)
+            .where('playerClub', isEqualTo: awayPlayers).orderBy('playerNumber')
             .get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
@@ -151,41 +134,24 @@ class gamePlayersAwayListState extends State<gamePlayersAwayList> {
                 final DocumentSnapshot documentSnapshot =
                     streamSnapshot.data!.docs[index];
                 return Card(
+                  
                   margin: const EdgeInsets.all(1),
                   child: ListTile(
-                    title: SizedBox(
-                        child: Row(
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              height: 50.0,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: <Widget>[
-                                    const Icon(
-                                      Icons.circle,
-                                      color: Colors.blue,
-                                      size: 50.0,
-                                    ),
-                                    Text(
-                                      documentSnapshot['playerNumber'],
+                    leading: CircleAvatar(
+                      child: Text(
+                                      documentSnapshot['playerNumber'].toString(),
                                       style: const TextStyle(
                                           fontSize: 18, color: Colors.white),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                                  
+                    ),
+                            
+                    title: SizedBox(
+                        child: Row(
+                      children: [
+
                         const SizedBox(
-                          width: 15,
+                          width: 25,
                         ),
                         Row(
                           children: [
@@ -198,7 +164,7 @@ class gamePlayersAwayListState extends State<gamePlayersAwayList> {
                         ),
                       ],
                     )),
-                    subtitle: Text(documentSnapshot['playerClub']),
+  
                     selected: index == _selectedIndexAway,
                     onTap: () {
                       _selectedIndexAway = index;

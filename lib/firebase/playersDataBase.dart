@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:semafor/components/drop_down_clubs.dart';
 
 
 class playersDataList extends StatefulWidget {
@@ -59,13 +59,17 @@ class playersDataListState extends State<playersDataList> {
                     labelText: 'playerNumber',
                   ),
                 ),
-                TextField(
-                  controller: _playerClubController,
-                  decoration: const InputDecoration(labelText: 'PlayerClub'),
+          SizedBox(
+                  height: 40,
+                  width: 250,
+                  child:  DropDownClubs(),
                 ),
+      
+
                 const SizedBox(
                   height: 20,
                 ),
+                
                 ElevatedButton(
                   child: const Text('Update'),
                   onPressed: () async {
@@ -78,12 +82,16 @@ class playersDataListState extends State<playersDataList> {
                         "playerbName": PlayerName,
                         'playerSurname': PlayerSurname,
                         "playerNumber": PlayerNumber,
-                        'playerClub': PlayerClub
+                        'playerClub': dataOfPlayers.club
                       });
+                      setState(() {
+
+                    });
                       _playerNameController.text = '';
                       _playerNumberController.text = '';
                       Navigator.of(context).pop();
                     }
+                    
                   },
                 )
               ],
@@ -99,11 +107,13 @@ class playersDataListState extends State<playersDataList> {
         const SnackBar(content: Text('You have successfully deleted a player')));
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: _players.get(),
+        future: _players.where('playerClub', isEqualTo: dataOfPlayers.club).orderBy('playerNumber')
+            .get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return ListView.builder(
@@ -115,8 +125,11 @@ class playersDataListState extends State<playersDataList> {
                   margin: const EdgeInsets.all(1),
                   child: Row(
                     children: [
+                      SizedBox(width: 15,),
+
                             Container(
                               height: 50.0,
+                              width: 50,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,
@@ -131,7 +144,7 @@ class playersDataListState extends State<playersDataList> {
                                       size: 50.0,
                                     ),
                                     Text(
-                                      documentSnapshot['playerNumber'],
+                                      documentSnapshot['playerNumber'].toString(),
                                       style: TextStyle(
                                           fontSize: 18, color: Colors.white),
                                     ),

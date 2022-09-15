@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:semafor/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
-import 'package:video_player/video_player.dart';
 
-late VideoPlayerController _controller;
+
 
 
 
@@ -48,7 +47,7 @@ class _ControlScoreState extends State<ControlScore> {
                 width: 110,
                 height: 70,
                 child: ElevatedButton.icon(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_circle_up_sharp,
                       color: Colors.blue,
                       size: 60,
@@ -116,7 +115,7 @@ class _ControlScoreState extends State<ControlScore> {
                 width: 110,
                 height: 70,
                 child: ElevatedButton.icon(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_circle_down_sharp,
                       color: Colors.red,
                       size: 60,

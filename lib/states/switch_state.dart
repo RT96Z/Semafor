@@ -103,7 +103,7 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
       flex: 1,
       child: Container(
         height: 600,
-        color: Colors.red,
+        color: Colors.transparent,
         child: Column(
           children: [
             Row(children: [SizedBox( height: 50,)],),
@@ -160,58 +160,71 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
       fit: FlexFit.tight,
       flex: 1,
       child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+
             children: [
-              ElevatedButton(onPressed: (){
-                          setState(() {
-
-                        // SWITCH SA SCOREBOARDA NA VIDEO EKRAN
-                        FirebaseFirestore.instance
-                            .collection('game')
-                            .doc('Event')
-                            .collection('Events')
-                            .doc('Video')
-                            .update({
-                          'videoIndex': 1,
-                        });
-
-
-                        //ŠALJE KOJI VIDEO PUSTUTI NA VIDEO EKRANU
-                        FirebaseFirestore.instance
-                            .collection('game')
-                            .doc('Event')
-                            .collection('Events')
-                            .doc('Video')
-                            .update({
-                          'video': 2,
-                        });
-
-                        Timer(Duration(seconds: 19), () {
-                          setState(() {
-                            
-                            FirebaseFirestore.instance
-                                .collection('game')
-                                .doc('Event')
-                                .collection('Events')
-                                .doc('Video')
-                                .update({
-                              'video': 0,
-                            });
-
-                            FirebaseFirestore.instance
-                                .collection('game')
-                                .doc('Event')
-                                .collection('Events')
-                                .doc('Video')
-                                .update({
-                              'videoIndex': 0,
+              SizedBox(
+                width: 100,
+                height: 35,
+                child: ElevatedButton(
+                 
+                  style: ButtonStyle(
+                    foregroundColor:MaterialStateProperty.all(Colors.black),
+                    backgroundColor: MaterialStateProperty.all(Colors.white70)
+                  ),
+                  onPressed: (){
+                            setState(() {
+              
+                          // SWITCH SA SCOREBOARDA NA VIDEO EKRAN
+                          FirebaseFirestore.instance
+                              .collection('game')
+                              .doc('Event')
+                              .collection('Events')
+                              .doc('Video')
+                              .update({
+                            'videoIndex': 1,
+                          });
+              
+              
+                          //ŠALJE KOJI VIDEO PUSTUTI NA VIDEO EKRANU
+                          FirebaseFirestore.instance
+                              .collection('game')
+                              .doc('Event')
+                              .collection('Events')
+                              .doc('Video')
+                              .update({
+                            'video': 2,
+                          });
+              
+                          Timer(Duration(seconds: 19), () {
+                            setState(() {
+                              
+                              FirebaseFirestore.instance
+                                  .collection('game')
+                                  .doc('Event')
+                                  .collection('Events')
+                                  .doc('Video')
+                                  .update({
+                                'video': 0,
+                              });
+              
+                              FirebaseFirestore.instance
+                                  .collection('game')
+                                  .doc('Event')
+                                  .collection('Events')
+                                  .doc('Video')
+                                  .update({
+                                'videoIndex': 0,
+                              });
                             });
                           });
                         });
-                      });
-
-              }, child: Text('HEP'))
+              
+                }, child: Text('HEP')),
+              )
             ],
           )
         ],

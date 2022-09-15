@@ -61,7 +61,7 @@ class _ReorderPlayerHomeLIstState extends State<ReorderPlayerHomeLIst> {
 
 
     ElevatedButton(onPressed: (){
-     List<Object> copyListHome = [...playersHomeList];
+      playersHomeList = [...playersHomeList];
       
     }, child: Text('Save')),
 
