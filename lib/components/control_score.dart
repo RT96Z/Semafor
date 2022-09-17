@@ -60,8 +60,8 @@ class _ControlScoreState extends State<ControlScore> {
                     onPressed: () async {
 
                       gameData
-                          .doc('Home')
-                          .update({'goals': FieldValue.increment(1)});
+                          .doc('Score')
+                          .update({'goalsHome': FieldValue.increment(1)});
 
                       setState(() {
                         //ŠALJE KOJI VIDEO PUSTUTI NA VIDEO EKRANU
@@ -127,8 +127,8 @@ class _ControlScoreState extends State<ControlScore> {
                     label: Text("", textAlign: TextAlign.center), //NO GOAL
                     onPressed: () {
                       gameData
-                          .doc('Home')
-                          .update({'goals': FieldValue.increment(-1)});
+                          .doc('Score')
+                          .update({'goalsHome': FieldValue.increment(-1)});
                     }),
               ),
             ],
@@ -161,7 +161,7 @@ class _ControlScoreState extends State<ControlScore> {
                   ),
                 ),
                 onPressed: () {
-                  gameData.doc('Home').update({'goals': 0});
+                  gameData.doc('Score').update({'goalsHome': 0});
                   deleteAllHome();
                 },
               ),
@@ -195,7 +195,7 @@ class _ControlScoreState extends State<ControlScore> {
                   ),
                 ),
                 onPressed: () {
-                  gameData.doc('Away').update({'goals': 0});
+                  gameData.doc('Score').update({'goalsAway': 0});
                   deleteAllAway();
                 },
               ),
@@ -223,8 +223,8 @@ class _ControlScoreState extends State<ControlScore> {
                     label: Text("", textAlign: TextAlign.left), //GOAL
                     onPressed: () {
                       gameData
-                          .doc('Away')
-                          .update({'goals': FieldValue.increment(1)});
+                          .doc('Score')
+                          .update({'goalsAway': FieldValue.increment(1)});
                     }),
               ),
               SizedBox(
@@ -246,8 +246,8 @@ class _ControlScoreState extends State<ControlScore> {
                     label: Text("", textAlign: TextAlign.center), //NO GOAL
                     onPressed: () {
                       gameData
-                          .doc('Away')
-                          .update({'goals': FieldValue.increment(-1)});
+                          .doc('Score')
+                          .update({'goalsAway': FieldValue.increment(-1)});
                     }),
               ),
             ],

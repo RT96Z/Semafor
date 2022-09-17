@@ -11,6 +11,13 @@ final CollectionReference igraciUtakmica =
 final CollectionReference clubData =
     FirebaseFirestore.instance.collection('game');
 
+    var FireSwitch = FirebaseFirestore.instance
+    .collection('game')
+    .doc('Event')
+    .collection('Events')
+    .doc('Video');
+
+
 
 class getSwitch{
 
@@ -43,7 +50,9 @@ class _ZamjeneState extends State<Zamjene> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Row(children: [
+        child: Row(
+            children: [
+
       //Igrač koji izlazi
       Column(
         children: [
@@ -109,7 +118,7 @@ class _ZamjeneState extends State<Zamjene> {
   }
 
    Future<String?> getOUTData() async {
-    var a = await clubData.doc('Home').get();
+    var a = await clubData.doc('Score').get();
 
     setState(() {
       selectedClubName = a['${getSwitch.homeORaway}'];

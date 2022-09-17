@@ -79,6 +79,7 @@ flutter:
      - assets/crveni.png
      - assets/video/
      - assets/audio/goal_audio.mp3
+     - assets/pic/subGif.gif
 
  
   #   - images/a_dot_ham.jpeg

@@ -20,7 +20,7 @@ class gamePlayersHomeList extends StatefulWidget {
 class gamePlayersHomeListState extends State<gamePlayersHomeList> {
     int? _selectedIndexHome;
   Future<String?> getHome() async {
-    var a = await clubData.doc('Home').get();
+    var a = await clubData.doc('Score').get();
     setState(() {
       homePlayers = a['homeClubName'];
     });
@@ -118,7 +118,7 @@ class gamePlayersAwayListState extends State<gamePlayersAwayList> {
 
   String? awayPlayers;
   Future<String?> getAway() async {
-    var b = await clubData.doc('Away').get();
+    var b = await clubData.doc('Score').get();
     setState(() {
       awayPlayers = b['awayClubName'];
     });

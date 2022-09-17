@@ -2,6 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:semafor/components/video.dart';
+import 'package:semafor/screens/prikaz_zamjena.dart';
+
 
 import 'package:semafor/views/publicScoreboardScreen.dart';
 
@@ -50,6 +52,9 @@ class _ScoreboardSwitchState extends State<ScoreboardSwitch> {
         return semaforPrikaz();
       case 1:
         return videoPrikaz();
+
+      case 2:
+        return ZamjenePrikaz();
  
 
     }
@@ -62,6 +67,10 @@ class _ScoreboardSwitchState extends State<ScoreboardSwitch> {
 
   Widget videoPrikaz() {
     return Container( height: 200, width: 200, child: VideoScreen());
+  }
+
+  Widget ZamjenePrikaz() {
+    return Container( height: 800, width: 900, child: ShowReplacements());
   }
 
 }

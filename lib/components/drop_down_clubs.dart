@@ -10,7 +10,7 @@ final CollectionReference clubs =
 
 
 
-final CollectionReference clubData = FirebaseFirestore.instance.collection('game');
+
 
 
 class DataOfPlayers{

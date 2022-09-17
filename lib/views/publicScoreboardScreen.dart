@@ -6,6 +6,7 @@ import 'package:semafor/components/time.dart';
 import 'package:semafor/components/video.dart';
 
 import 'package:semafor/firebase/scorer_list.dart';
+import 'package:semafor/screens/prikaz_zamjena.dart';
 import 'package:semafor/test.dart';
 
 import '../components/prikaz_postava.dart';
@@ -28,7 +29,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
   int indexPosition = 0;
 
   Future<String?> getHomeData() async {
-    var a = await clubData.doc('Home').get();
+    var a = await clubData.doc('Score').get();
 
     setState(() {
       homeName = a['homeClubName'];
@@ -37,7 +38,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
   }
 
   Future<String?> getAwayData() async {
-    var b = await clubData.doc('Away').get();
+    var b = await clubData.doc('Score').get();
     setState(() {
       awayName = b['awayClubName'];
     });
@@ -58,6 +59,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
     getHomeData();
     getIndex();
     return Theme(
+      //TODO OVDJE KASNIJE POSTAVITI POZADINU SEMAFORA
       data: Theme.of(context).copyWith(scaffoldBackgroundColor: Colors.red[200]),
       child: Scaffold(
         
@@ -92,7 +94,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                         height: 100,
                                         width: 100,
                                         child: FutureBuilder<DocumentSnapshot>(
-                                            future: clubData.doc('Home').get(),
+                                            future: clubData.doc('Score').get(),
                                             builder: (context, snapshot) {
                                               if (!snapshot.hasData) {
                                                 return new Text("Loading");
@@ -135,7 +137,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                     height: 300,
                                     width: 300,
                                     child: FutureBuilder<DocumentSnapshot>(
-                                        future: clubData.doc('Home').get(),
+                                        future: clubData.doc('Score').get(),
                                         builder: (context, snapshot) {
                                           if (!snapshot.hasData) {
                                             return Text("Loading");
@@ -146,7 +148,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                             return Align(
                                               alignment: Alignment.center,
                                               child: Text(
-                                                "${data['goals']}",
+                                                "${data['goalsHome']}",
                                                 style: TextStyle(
                                                     fontSize: 150,
                                                     color: Colors.white,
@@ -209,7 +211,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                     height: 300,
                                     width: 300,
                                     child: FutureBuilder<DocumentSnapshot>(
-                                        future: clubData.doc('Away').get(),
+                                        future: clubData.doc('Score').get(),
                                         builder: (context, snapshot) {
                                           if (!snapshot.hasData) {
                                             return new Text("Loading");
@@ -220,7 +222,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                             return Align(
                                               alignment: Alignment.center,
                                               child: Text(
-                                                "${data['goals']}",
+                                                "${data['goalsAway']}",
                                                 style: TextStyle(
                                                     fontSize: 150,
                                                     color: Colors.white,
@@ -237,7 +239,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                         height: 100,
                                         width: 100,
                                         child: FutureBuilder(
-                                            future: clubData.doc('Away').get(),
+                                            future: clubData.doc('Score').get(),
                                             builder: (context, snapshot) {
                                               if (!snapshot.hasData) {
                                                 return Text("Loading");
@@ -315,12 +317,18 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                         ),
                       )),
     
-                  //GOAL ANIMATION - 3 - INDEX
+                  //PRIKAZ POSTAVA - 3 - INDEX
                   SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: 600,
                       child: ShowPlayers(),
-                  )
+                  ),
+                  //PRIKAZ ZAMJENA - 4 INDEX
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   height: MediaQuery.of(context).size.height,
+                  //   child: ShowReplacements(),
+                  // )
                 ],
               ),
             ],

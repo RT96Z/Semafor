@@ -9,6 +9,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 enum WidgetMarker { Kartoni, Reklame, Events }
 
+var FireSwitch = FirebaseFirestore.instance
+    .collection('game')
+    .doc('Event')
+    .collection('Events')
+    .doc('Video');
+
+var FirestoreEvent = FirebaseFirestore.instance.collection('game').doc('Event').collection('Events');
+
 final CollectionReference kartoni =
     FirebaseFirestore.instance.collection('game');
 
@@ -370,49 +378,75 @@ class _SwitcherBodyWidgetState extends State<SwitcherBodyWidget> {
                 width: 150,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      getSwitch.homeORaway = 'homeClubName';
-                    });
-                  showDialog(context: context, builder: (context){
-                    return  AlertDialog(
-                    content: SizedBox(
-                      width: 1000,
-                      height: 900,
-                      child: Zamjene(),
-                    ),
-                  );
+                    onPressed: () {
+                      setState(() {
+                        getSwitch.homeORaway = 'homeClubName';
+                      });
+                      FireSwitch.update({'videoIndex': 2,}); //postavljem switch da prebaci na prikaz zamjena
+                      FireSwitch.update({'video': 1,}); // te odmah nakon toga da prebaci sa prikaza semafora na prikaz zamjena
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: SizedBox(
+                              width: 1000,
+                              height: 900,
+                              child: Column(
+                                children: [
+                                  Row(mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                    ElevatedButton(
+              onPressed: (){
 
-                  },);
-                  },
-                  child: Text('ZAMJENA')
+              FireSwitch.update({'videoIndex': 0,}); //postavljem switch da prebaci na prikaz zamjena
+              FireSwitch.update({'video': 0,}); // te odmah nakon toga da prebaci sa prikaza semafora na prikaz zamjena
+              
+              FirestoreEvent..doc('ShowPlayer').update({'playerName': '','playerSurname': '','playerNumber': '','playerPicture': '',});
+              FirestoreEvent..doc('PlayerIN').update({'playerName': '','playerSurname': '','playerNumber': '','playerPicture': '',});
 
-                  
-                ),
+              Navigator.pop(context);
+
+            }, child: Icon(Icons.close), ),
+                                  ],),
+                                  Zamjene(),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Text('ZAMJENA')),
               ),
               SizedBox(
                 width: 150,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                       getSwitch.homeORaway = 'awayClubName';
-                    });
-                  showDialog(context: context, builder: (context){
-                    return  AlertDialog(
-                    content: SizedBox(
-                      width: 1000,
-                      height: 900,
-                      child: Zamjene(),
-                    ),
-                  );
+                    onPressed: () {
+                      setState(() {
+                        getSwitch.homeORaway = 'awayClubName';
+                      });
+                      FireSwitch.update({'videoIndex': 2,}); //postavljem switch da prebaci na prikaz zamjena
+                      FireSwitch.update({'video': 1,}); // te odmah nakon toga da prebaci sa prikaza semafora na prikaz zamjena
+                      showDialog(
+                        barrierDismissible: false,
 
-                  },);
-                  },
-                  child: Text('ZAMJENA GOSTI' , style: TextStyle(fontSize: 15),)
-
-                  
-                ),
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: SizedBox(
+                              width: 1000,
+                              height: 900,
+                              child: Zamjene(),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Text(
+                      'ZAMJENA GOSTI',
+                      style: TextStyle(fontSize: 15),
+                    )),
               )
             ],
           )

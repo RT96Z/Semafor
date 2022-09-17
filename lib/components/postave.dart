@@ -74,7 +74,7 @@ class PostaveState extends State<Postave>{
                                     setState(() {
                                       selectedClub = clubValues;
       
-                                      FirebaseFirestore.instance.collection('game').doc('Home').update({'homeClubName': selectedClub, });
+                                      FirebaseFirestore.instance.collection('game').doc('Score').update({'homeClubName': selectedClub, });
                                     });
                                   },
                                   value: selectedClub,
@@ -147,7 +147,7 @@ class PostaveState extends State<Postave>{
                         
                                     setState(() {
                                       selectedAwayClub = clubValues;
-                                      FirebaseFirestore.instance.collection('game').doc('Away').update({'awayClubName': selectedAwayClub});
+                                      FirebaseFirestore.instance.collection('game').doc('Score').update({'awayClubName': selectedAwayClub});
                                      
                                     });
                                   },
@@ -198,7 +198,7 @@ class PostaveHomeListState extends State<PostaveHomeList> {
 
     
   Future<String?> getHome() async {
-    var a = await clubData.doc('Home').get();
+    var a = await clubData.doc('Score').get();
     setState(() {
       selectHome = a['homeClubName'];
     });
@@ -310,7 +310,7 @@ class postaveAwayListState extends State<postaveAwayList> {
 
     
   Future<String?> getAway() async {
-    var a = await clubData.doc('Away').get();
+    var a = await clubData.doc('Score').get();
     setState(() {
       selectAway = a['awayClubName'];
     });
