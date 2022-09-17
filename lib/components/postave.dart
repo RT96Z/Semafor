@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:semafor/firebase/game_list.dart';
-import 'package:semafor/firebase/reordable_list.dart';
+
 
 
 
@@ -23,6 +24,13 @@ class PostaveState extends State<Postave>{
   var selectedClub, selectedAwayClub;
 
 
+ Future<QuerySnapshot>? firestoreStream;
+
+  @override
+  void initState() {
+    firestoreStream = postaveUtakmice.get();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +45,7 @@ class PostaveState extends State<Postave>{
                     height: 50,
                   ),
                   FutureBuilder<QuerySnapshot>(
-                     future: postaveUtakmice.get(),
+                     future: firestoreStream,
                       builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot)  {
                         if (streamSnapshot.hasData) {
                            List<DropdownMenuItem> clubItems = [];
@@ -85,7 +93,7 @@ class PostaveState extends State<Postave>{
                       }),
                 
             SizedBox(height: 20,),
-            SizedBox(height:1000, width: 350, child:  ReorderPlayerHomeLIst()),
+   
             
                 ],
               ),
@@ -109,7 +117,7 @@ class PostaveState extends State<Postave>{
                     height: 50,
                   ),
                   FutureBuilder<QuerySnapshot>(
-                      future: postaveUtakmice.get(),
+                      future: firestoreStream,
                       builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot)  {
                         if (streamSnapshot.hasData) {
                            List<DropdownMenuItem> clubItems = [];
@@ -159,9 +167,7 @@ class PostaveState extends State<Postave>{
                       }),
                 
              SizedBox(height: 20,),
-            SizedBox(height: 1000, width: 350, child:  ReorderPlayerAwayLIst()),
-                
-      
+   
                 ],
               )
             ],
@@ -176,7 +182,238 @@ class PostaveState extends State<Postave>{
 
 }
 
+    String? postaveHomeNumber, postaveHomeName, postaveHomeSurname, postaveHomeURL,selectHome,selectAway;
 
+class PostaveHomeList extends StatefulWidget {
+  const PostaveHomeList({super.key});
+
+  @override
+  State<PostaveHomeList> createState() => PostaveHomeListState();
+}
+
+class PostaveHomeListState extends State<PostaveHomeList> {
+    int? _selectedIndexHome;
+    
+
+
+    
+  Future<String?> getHome() async {
+    var a = await clubData.doc('Home').get();
+    setState(() {
+      selectHome = a['homeClubName'];
+    });
+    return selectHome;
+  }
+
+
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    getHome();
+    return Scaffold(
+      body: FutureBuilder(
+        future: igraciUtakmica
+            .where('playerClub', isEqualTo: selectHome).orderBy('playerNumber')
+            .get(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+          if (streamSnapshot.hasData) {
+            return ListView.builder(
+              itemCount: streamSnapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                final DocumentSnapshot documentSnapshot =
+                    streamSnapshot.data!.docs[index];
+                return Card(
+                  
+                  margin: const EdgeInsets.all(1),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: Text(
+                                      documentSnapshot['playerNumber'].toString(),
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.white),
+                                    ),
+                                  
+                    ),
+                            
+                    title: SizedBox(
+                        child: Row(
+                      children: [
+
+                        const SizedBox(
+                          width: 25,
+                        ),
+                        Row(
+                          children: [
+                            Text(documentSnapshot['playerName']),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(documentSnapshot['playerSurname']),
+                          ],
+                        ),
+                      ],
+                    )),
+  
+                    selected: index == _selectedIndexHome,
+                    onTap: () {
+                      _selectedIndexHome = index;
+                      postaveHomeNumber = documentSnapshot['playerNumber'].toString();
+                      postaveHomeSurname = documentSnapshot['playerSurname'];
+                      postaveHomeName = documentSnapshot['playerName'];
+                      postaveHomeURL = documentSnapshot['playerPicture'];
+                
+                
+                
+
+                  setState(() {
+                    showPlayer();
+                        });
+
+                     
+                    
+                    },
+                  ),
+                );
+              },
+            );
+          }
+
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+    );
+  }
+
+
+
+
+}
+
+
+
+
+class postaveAwayList extends StatefulWidget {
+  const postaveAwayList({super.key});
+
+  @override
+  State<postaveAwayList> createState() => postaveAwayListState();
+}
+
+class postaveAwayListState extends State<postaveAwayList> {
+    int? _selectedIndexAway;
+    
+
+
+    
+  Future<String?> getAway() async {
+    var a = await clubData.doc('Away').get();
+    setState(() {
+      selectAway = a['awayClubName'];
+    });
+    return selectAway;
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    getAway();
+    return Scaffold(
+      body: FutureBuilder(
+        future: igraciUtakmica
+            .where('playerClub', isEqualTo: selectAway).orderBy('playerNumber')
+            .get(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                final DocumentSnapshot documentSnapshot =
+                    snapshot.data!.docs[index];
+                return Card(
+                  
+                  margin: const EdgeInsets.all(1),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: Text(
+                                      documentSnapshot['playerNumber'].toString(),
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.white),
+                                    ),
+                                  
+                    ),
+                            
+                    title: SizedBox(
+                        child: Row(
+                      children: [
+
+                        const SizedBox(
+                          width: 25,
+                        ),
+                        Row(
+                          children: [
+                            Text(documentSnapshot['playerName']),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(documentSnapshot['playerSurname']),
+                          ],
+                        ),
+                      ],
+                    )),
+  
+                    selected: index == _selectedIndexAway,
+                    onTap: () {
+                      _selectedIndexAway = index;
+                      postaveHomeNumber = documentSnapshot['playerNumber'].toString();
+                      postaveHomeSurname = documentSnapshot['playerSurname'];
+                      postaveHomeName = documentSnapshot['playerName'];
+                      postaveHomeURL = documentSnapshot['playerPicture'];
+                
+                
+                
+
+                  setState(() {
+                    showPlayer();
+                        });
+
+                     
+                    
+                    },
+                  ),
+                );
+              },
+            );
+          }
+
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+    );
+  }
+
+
+
+
+}
+
+      Future<void> showPlayer() {
+      // Call the user's CollectionReference to add a new user
+      return clubData.doc('Event').collection('Events').doc('ShowPlayer').set({
+            'playerNumber': postaveHomeNumber, 
+            'playerName': postaveHomeName, 
+            'playerSurname': postaveHomeSurname, 
+            'playerPicture': postaveHomeURL, 
+          
+
+          });
+    }
 
 
 

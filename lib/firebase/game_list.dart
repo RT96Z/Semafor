@@ -27,15 +27,23 @@ class gamePlayersHomeListState extends State<gamePlayersHomeList> {
     return homePlayers;
   }
 
+   Future <QuerySnapshot>? firestoreStream;
+
+  @override
+  void initState() {
+    firestoreStream = igraciUtakmica
+            .where('playerClub', isEqualTo: homePlayers).orderBy('playerNumber')
+            .get();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
     getHome();
     return Scaffold(
       body: FutureBuilder(
-        future: igraciUtakmica
-            .where('playerClub', isEqualTo: homePlayers).orderBy('playerNumber')
-            .get(),
+        future: firestoreStream,
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return ListView.builder(
@@ -117,15 +125,24 @@ class gamePlayersAwayListState extends State<gamePlayersAwayList> {
     return awayPlayers;
   }
 
+   Future <QuerySnapshot>? firestoreStream;
+
+  @override
+  void initState() {
+    firestoreStream = igraciUtakmica
+            .where('playerClub', isEqualTo: awayPlayers).orderBy('playerNumber')
+            .get();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
     getAway();
     return Scaffold(
       body: FutureBuilder(
-        future: igraciUtakmica
-            .where('playerClub', isEqualTo: awayPlayers).orderBy('playerNumber')
-            .get(),
+        future: firestoreStream,
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
            return ListView.builder(

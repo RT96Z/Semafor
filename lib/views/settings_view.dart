@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:semafor/components/clubs.dart';
-import 'package:semafor/components/drop_down_clubs.dart';
+
 import 'package:semafor/components/players.dart';
 import 'package:semafor/components/postave.dart';
-import 'package:semafor/components/time.dart';
-import 'package:semafor/firebase/reordable_list.dart';
-import 'package:semafor/test.dart';
+
+
+
 import '../colors.dart';
 
 enum WidgetMarker { Clubs, Players, Postave ,Ostalo }

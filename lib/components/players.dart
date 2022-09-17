@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -40,14 +39,14 @@ pickedFile = await ImagePicker().pickImage(
 
 uploadImageToStorage() async {
 
-Reference _reference = FirebaseStorage.instance.ref().child('Players/${dataOfPlayers.club}/${playerNumber.text}');
+Reference reference = FirebaseStorage.instance.ref().child('Players/${DataOfPlayers.club}/${playerNumber.text}');
 //Sliku uploadamo u odabranom formatu, u nasem slucaju jpeg formatu.
-    await _reference
+    await reference
         .putData(
       await pickedFile!.readAsBytes(),
       SettableMetadata(contentType: 'image/jpeg'),
     ).whenComplete(() async {
-      await _reference.getDownloadURL().then((value) {
+      await reference.getDownloadURL().then((value) {
         uploadedPhotoUrl = value;
       });
     });
@@ -232,18 +231,14 @@ Reference _reference = FirebaseStorage.instance.ref().child('Players/${dataOfPla
                   ],
                 ),
                 Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [],
-                ),
+
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
 
-                Container(height: 1400, width: 1200, child: playersDataList())
+                SizedBox(height: 1400, width: 1200, child: playersDataList())
               ],
             )
           ],
@@ -266,7 +261,7 @@ Reference _reference = FirebaseStorage.instance.ref().child('Players/${dataOfPla
       'playerName': playerName.text,
       'playerSurname': playerSurname.text,
       'playerNumber': int.parse(playerNumber.text), //sprema na bazu kao int kako bi se omogućilo sortiranje preko broja igrača
-      'playerClub': dataOfPlayers.club,
+      'playerClub': DataOfPlayers.club,
       'playerPicture': uploadedPhotoUrl,
     });
   }

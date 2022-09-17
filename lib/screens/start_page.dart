@@ -4,7 +4,7 @@ import 'package:semafor/views/scoreboard_switch_view.dart';
 
 
 import 'package:semafor/views/settings_view.dart';
-import 'package:semafor/views/publicScoreboardScreen.dart';
+
 
 class StartPage extends StatefulWidget {
   @override
@@ -38,6 +38,7 @@ class _StartPageState extends State<StartPage> {
               ),
             ),
             SizedBox(
+              width: 20,
               height: 30,
             ),
             SizedBox(
@@ -80,24 +81,7 @@ class _StartPageState extends State<StartPage> {
             SizedBox(
               height: 30,
             ),
-            // SizedBox(
-            //   width: 800,
-            //   height: 100,
-            //   child: ElevatedButton(
-            //       onPressed: (() {
-            //         Navigator.push(context,
-            //             MaterialPageRoute(builder: (context) {
-            //           return Switcher();
-            //         }));
-            //       }),
-            //       child: Text('Testna stranica',
-            //           style: TextStyle(
-            //             fontSize: 25.0,
-            //             fontWeight: FontWeight.bold,
-            //             color: Colors.white,
-            //           ))),
-            // ),
-
+        
             
           ])),
     );

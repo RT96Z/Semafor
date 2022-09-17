@@ -82,7 +82,7 @@ class playersDataListState extends State<playersDataList> {
                         "playerbName": PlayerName,
                         'playerSurname': PlayerSurname,
                         "playerNumber": PlayerNumber,
-                        'playerClub': dataOfPlayers.club
+                        'playerClub': DataOfPlayers.club
                       });
                       setState(() {
 
@@ -106,14 +106,20 @@ class playersDataListState extends State<playersDataList> {
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('You have successfully deleted a player')));
   }
+  Future <QuerySnapshot>? firestoreStream;
 
+  @override
+  void initState() {
+    firestoreStream =  _players.where('playerClub', isEqualTo: DataOfPlayers.club).orderBy('playerNumber')
+            .get();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: _players.where('playerClub', isEqualTo: dataOfPlayers.club).orderBy('playerNumber')
-            .get(),
+        future:firestoreStream,
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return ListView.builder(

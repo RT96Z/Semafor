@@ -82,7 +82,7 @@ class _ControlScoreState extends State<ControlScore> {
                             .update({
                           'videoIndex': 1,
                         });
-                        Timer(Duration(seconds: 19), () {
+                        Timer(const Duration(seconds: 19), () {
                           setState(() {
                                                     FirebaseFirestore.instance
                             .collection('game')
@@ -139,7 +139,7 @@ class _ControlScoreState extends State<ControlScore> {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
+              const Text(
                 'Home',
                 style: TextStyle(
                   fontSize: 35,

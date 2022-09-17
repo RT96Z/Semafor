@@ -92,12 +92,20 @@ class _clubsDataListState extends State<clubsDataList> {
         content: Text('You have successfully deleted a club')));
   }
 
+   Future <QuerySnapshot>? firestoreStream;
+
+  @override
+  void initState() {
+    firestoreStream = _clubs.get();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
       body: FutureBuilder(
-        future: _clubs.get(),
+        future: firestoreStream,
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return ListView.builder(

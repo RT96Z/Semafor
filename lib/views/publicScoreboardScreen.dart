@@ -6,6 +6,9 @@ import 'package:semafor/components/time.dart';
 import 'package:semafor/components/video.dart';
 
 import 'package:semafor/firebase/scorer_list.dart';
+import 'package:semafor/test.dart';
+
+import '../components/prikaz_postava.dart';
 
 String? download, Home;
 var downloadHome, downloadAway, HomeLink;
@@ -280,7 +283,7 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                 Container(
                                   height: 400,
                                   width: 600,
-                                  child: scorerAwayList(),
+                                  child: ScorerAwayList(),
                                 )
                               ],
                             )
@@ -314,9 +317,9 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
     
                   //GOAL ANIMATION - 3 - INDEX
                   SizedBox(
-                      width: 500,
-                      height: 500,
-                      child: VideoScreen(),
+                      width: MediaQuery.of(context).size.width,
+                      height: 600,
+                      child: ShowPlayers(),
                   )
                 ],
               ),

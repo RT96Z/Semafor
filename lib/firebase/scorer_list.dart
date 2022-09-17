@@ -17,17 +17,27 @@ class scorerHomeListState extends State<scorerHomeList> {
     await gameData.doc('Event').collection('homeEvent').doc(clubId).delete();
   }
 
+
+
+  Future <QuerySnapshot>? firestoreStream;
+
+  @override
+  void initState() {
+    firestoreStream =  gameData
+            .doc('Event')
+            .collection('homeEvent')
+            .orderBy('goalMinute')
+            .get();
+    super.initState();
+  }
+
   @override
   Widget build(
     BuildContext context,
   ) {
     return Scaffold(
       body: FutureBuilder(
-        future: gameData
-            .doc('Event')
-            .collection('homeEvent')
-            .orderBy('goalMinute')
-            .get(),
+        future: firestoreStream,
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return ListView.builder(
@@ -65,16 +75,28 @@ class scorerHomeListState extends State<scorerHomeList> {
   }
 }
 
-class scorerAwayList extends StatefulWidget {
-  const scorerAwayList({super.key});
+class ScorerAwayList extends StatefulWidget {
+  const ScorerAwayList({super.key});
 
   @override
-  State<scorerAwayList> createState() => scorerAwayListState();
+  State<ScorerAwayList> createState() => ScorerAwayListState();
 }
 
-class scorerAwayListState extends State<scorerAwayList> {
+class ScorerAwayListState extends State<ScorerAwayList> {
   Future<void> _delete(String clubId) async {
     await gameData.doc('Event').collection('awayEvent').doc(clubId).delete();
+  }
+
+  Future <QuerySnapshot>? firestoreStream;
+
+  @override
+  void initState() {
+    firestoreStream =  gameData
+            .doc('Event')
+            .collection('awayEvent')
+            .orderBy('goalMinute')
+            .get();
+    super.initState();
   }
 
   @override
@@ -83,11 +105,7 @@ class scorerAwayListState extends State<scorerAwayList> {
   ) {
     return Scaffold(
       body: FutureBuilder(
-        future: gameData
-            .doc('Event')
-            .collection('awayEvent')
-            .orderBy('goalMinute')
-            .get(),
+        future: firestoreStream,
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             return ListView.builder(

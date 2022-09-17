@@ -47,20 +47,20 @@ class _ScoreboardSwitchState extends State<ScoreboardSwitch> {
   Widget? getCustomContainer() {
     switch (switchero) {
       case 0:
-        return SemaforPrikaz();
+        return semaforPrikaz();
       case 1:
-        return VideoPrikaz();
+        return videoPrikaz();
  
 
     }
-    // return SemaforPrikaz();  // default container
+    // return semaforPrikaz();  // default container
   }
 
-  Widget SemaforPrikaz() {
+  Widget semaforPrikaz() {
     return Flexible(fit: FlexFit.tight, flex: 1, child: PublicScoreboardScreen());
   }
 
-  Widget VideoPrikaz() {
+  Widget videoPrikaz() {
     return Container( height: 200, width: 200, child: VideoScreen());
   }
 

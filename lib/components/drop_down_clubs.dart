@@ -13,7 +13,7 @@ final CollectionReference clubs =
 final CollectionReference clubData = FirebaseFirestore.instance.collection('game');
 
 
-class dataOfPlayers{
+class DataOfPlayers{
 
 static String? club;
 
@@ -26,9 +26,13 @@ class DropDownClubs extends StatefulWidget {
 
 class DropDownClubsState extends State<DropDownClubs>{
   static var selectedPlayerClub;
+ Future<QuerySnapshot>? firestoreStream;
 
-
-
+  @override
+  void initState() {
+    firestoreStream = clubs.get();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +44,7 @@ class DropDownClubsState extends State<DropDownClubs>{
   
               children: [
                 FutureBuilder<QuerySnapshot>(
-                   future: clubs.get(),
+                   future: firestoreStream,
                     builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot)  {
                       if (streamSnapshot.hasData) {
                          List<DropdownMenuItem> clubItems = [];
@@ -71,7 +75,7 @@ class DropDownClubsState extends State<DropDownClubs>{
                                         setState(() {
                                           selectedPlayerClub = clubValues;
                                 
-                                          dataOfPlayers.club=selectedPlayerClub;
+                                          DataOfPlayers.club=selectedPlayerClub;
                                         });
                                       },
                                       value: selectedPlayerClub,
