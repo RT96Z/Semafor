@@ -17,5 +17,5 @@ const kOpenScoreboardBlueDark =  Color(0xFF483D8B);
 const kOpenScoreboardGreyDark =  Color(0xFF323232);
 const kOpenScoreboardGreyDarker =  Color(0xFF222222);
 
-const scorerListPureWhite =  TextStyle(color: Color(0xFFFFFFFF),fontSize: 25);
+const scorerListPureWhite =  TextStyle(color: Color(0xFFFFFFFF),fontSize: 35,fontWeight: FontWeight.bold);
 

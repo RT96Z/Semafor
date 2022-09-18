@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'package:semafor/text_field_decoration.dart';
+
 
 
 
@@ -52,14 +54,15 @@ class DropDownClubsState extends State<DropDownClubs>{
                           DocumentSnapshot snapDropDownClubs = streamSnapshot.data!.docs[i];
                           clubItems.add(
                             DropdownMenuItem(
+                          
                             
-                        
-                            value: "${snapDropDownClubs.get('clubName')}",
+                            value: "${snapDropDownClubs.get('clubName',)}",
                             child: Expanded(
                               
                               child: Text(
                                 snapDropDownClubs.get('clubName'),
                                 style: TextStyle(color: Colors.blue),
+                                
                               ),
                             ),
                           ));
@@ -84,7 +87,7 @@ class DropDownClubsState extends State<DropDownClubs>{
                                       
                                       hint: Text(
                                     "Choose Club",
-                                    style: TextStyle(color: Colors.black)),
+                                   style: settingsTextStyle),
                                       ),
                               
                               ],

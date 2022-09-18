@@ -80,7 +80,7 @@ Reference reference = FirebaseStorage.instance.ref().child('Players/${DataOfPlay
                 Column(
                   children: [
                  //   Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                    Text('PLAYER NAME'),
+                    Text('PLAYER NAME',style: settingsTextStyle),
                     Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                     SizedBox(
                         width: 350,
@@ -93,7 +93,7 @@ Reference reference = FirebaseStorage.instance.ref().child('Players/${DataOfPlay
                           controller: playerName,
                         )),
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                    Text('PLAYER SURNAME'),
+                    Text('PLAYER SURNAME',style: settingsTextStyle),
                     Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                     SizedBox(
                         width: 350,
@@ -106,7 +106,7 @@ Reference reference = FirebaseStorage.instance.ref().child('Players/${DataOfPlay
                           controller: playerSurname,
                         )),
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                    Text('PLAYER NUMBER'),
+                    Text('PLAYER NUMBER',style: settingsTextStyle),
                     Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                     SizedBox(
                         width: 350,
@@ -121,7 +121,7 @@ Reference reference = FirebaseStorage.instance.ref().child('Players/${DataOfPlay
                         )),
                    
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                    Text('PLAYER CLUB'),
+                    Text('PLAYER CLUB',style: settingsTextStyle),
                     Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                     SizedBox(
                         width: 350,

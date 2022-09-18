@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:semafor/text_field_decoration.dart';
 
 
 
@@ -63,6 +64,8 @@ class PostaveState extends State<Postave>{
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
+                               SizedBox(height: 50,width: 150, child: Text('HOME' , style: settingsTextStyle,),),
+                               SizedBox(width: 50,),
                               Icon(Icons.accessibility_new,
                                   size: 25, color: Colors.amber),
                               SizedBox(
@@ -81,7 +84,8 @@ class PostaveState extends State<Postave>{
                                   isExpanded: false,
                                   hint: Text(
                                 "Choose Club",
-                                style: TextStyle(color: Colors.black)),
+                               style: settingsTextStyle
+                               ),
                                   )
                             ],
                           );
@@ -135,6 +139,7 @@ class PostaveState extends State<Postave>{
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
+                             
                               Icon(Icons.accessibility_new,
                                   size: 25, color: Colors.amber),
                               SizedBox(
@@ -155,8 +160,11 @@ class PostaveState extends State<Postave>{
                                   isExpanded: false,
                                   hint: Text(
                                 "Choose Club",
-                                style: TextStyle(color: Colors.black)),
-                                  )
+                                style: settingsTextStyle
+                                ),
+                                  ),
+                                   SizedBox(width: 50,),
+                                   SizedBox(height: 50,width: 150, child: Text('AWAY' , style: settingsTextStyle,),),
                             ],
                           );
                         } 

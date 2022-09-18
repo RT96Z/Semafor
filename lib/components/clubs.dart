@@ -38,7 +38,7 @@ class _ClubsState extends State<Clubs> {
               Column(
                 children: [
                   const Padding(padding: EdgeInsets.symmetric(vertical: 30)),
-                  const Text('CLUB ID'),
+                   Text('CLUB ID',style: settingsTextStyle),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                   SizedBox(
                       width: 500,
@@ -58,7 +58,7 @@ class _ClubsState extends State<Clubs> {
               Column(
                 children: [
                   const Padding(padding: EdgeInsets.symmetric(vertical: 30)),
-                  const Text('CLUB NAME'),
+                   Text('CLUB NAME',style: settingsTextStyle,),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                   SizedBox(
                       width: 500,

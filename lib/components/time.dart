@@ -56,34 +56,32 @@ class _ShowTimeState extends State<ShowTime> {
                         Container(
                           width: 200,
                           height: 100,
-                          color: Colors.black,
+                          color: Colors.transparent,
                           child: Center(
                             child: Text(
                               '00:00',
-                              style: TextStyle(fontSize: 55, color: Colors.white),
+                              style: TextStyle(fontSize: 75, color: Colors.white, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
                         Container(
                             width: 200,
                             height: 100,
-                            color: Colors.black,
+                            color: Colors.transparent,
                             child: Center(
                               child: Text(
                                 _stringTime(),
-                                style: TextStyle(
-                                    fontSize: 55, color: Colors.white),
+                                style: TextStyle(fontSize: 75, color: Colors.white, fontWeight: FontWeight.bold),
                               ),
                             )),
                         Container(
                             width: 200,
                             height: 100,
-                            color: Colors.black,
+                            color: Colors.transparent,
                             child: Center(
                               child: Text(
                                 '45:00',
-                                style: TextStyle(
-                                    fontSize: 55, color: Colors.white),
+                                style: TextStyle(fontSize: 75, color: Colors.white, fontWeight: FontWeight.bold),
                               ),
                             )),
                         Container(
@@ -93,13 +91,12 @@ class _ShowTimeState extends State<ShowTime> {
                             child: Center(
                               child: Text(
                                 'KRAJ',
-                                style: TextStyle(
-                                    fontSize: 35, color: Colors.white),
+                               style: TextStyle(fontSize: 75, color: Colors.white, fontWeight: FontWeight.bold),
                               ),
                             )),
                         Text(
                           _stringTime(),
-                          style: TextStyle(fontSize: 55, color: Colors.white),
+                          style: TextStyle(fontSize: 75, color: Colors.white, fontWeight: FontWeight.bold),
                         )
                       ]),
                     ],

@@ -7,7 +7,6 @@ import 'package:semafor/components/video.dart';
 
 import 'package:semafor/firebase/scorer_list.dart';
 import 'package:semafor/screens/prikaz_zamjena.dart';
-import 'package:semafor/test.dart';
 
 import '../components/prikaz_postava.dart';
 
@@ -60,10 +59,10 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
     getIndex();
     return Theme(
       //TODO OVDJE KASNIJE POSTAVITI POZADINU SEMAFORA
-      data: Theme.of(context).copyWith(scaffoldBackgroundColor: Colors.red[200]),
+      data: Theme.of(context).copyWith(scaffoldBackgroundColor: Colors.transparent),
       child: Scaffold(
         
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
         body: Center(
           child: Column(
             children: [
@@ -75,7 +74,11 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.transparent,
+                      image: DecorationImage(
+            image:NetworkImage("assets/pic/background.jpg",),
+            fit: BoxFit.cover,
+          ),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -90,9 +93,10 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                 // Container za ime kluba i grb
                                 Column(
                                   children: [
+                                     Padding(padding: EdgeInsets.all(10)),
                                     Container(
-                                        height: 100,
-                                        width: 100,
+                                        height: 60,
+                                        width: 300,
                                         child: FutureBuilder<DocumentSnapshot>(
                                             future: clubData.doc('Score').get(),
                                             builder: (context, snapshot) {
@@ -105,10 +109,10 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                                 return Text(
                                                   "${data['homeClubName']}",
                                                   style: TextStyle(
-                                                      height: 2,
-                                                      fontSize: 15,
+                                             
+                                                      fontSize: 30,
                                                       color: Colors.white),
-                                                  textAlign: TextAlign.start,
+                                                  textAlign: TextAlign.center,
                                                 );
                                               }
                                             })),
@@ -121,8 +125,8 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                                     CircularProgressIndicator());
                                           } else {
                                             return Container(
-                                              height: 150,
-                                              width: 150,
+                                              height: 250,
+                                              width: 250,
                                               child: Image.network(
                                                 downloadHome.toString(),
                                                 height: 150,
@@ -181,18 +185,19 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SizedBox(
-                                height: 20,
+                                height: 70,
                               ),
                               
                               Text(
                                 ':',
                                 style: TextStyle(
-                                    height: 2, fontSize: 90, color: Colors.white),
+                                     fontSize: 130, color: Colors.white),
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 100,
                               ),
                               Container(
+                                
                                   height: 100,
                                   width: 250,
                                   child: ShowTime())
@@ -235,9 +240,10 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
     
                                 Column(
                                   children: [
+                                    Padding(padding: EdgeInsets.all(10)),
                                     Container(
-                                        height: 100,
-                                        width: 100,
+                                        height: 60,
+                                        width: 300,
                                         child: FutureBuilder(
                                             future: clubData.doc('Score').get(),
                                             builder: (context, snapshot) {
@@ -250,10 +256,10 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                                 return Text(
                                                   "${data['awayClubName']}",
                                                   style: TextStyle(
-                                                      height: 2,
-                                                      fontSize: 15,
+                                                     
+                                                      fontSize: 30,
                                                       color: Colors.white),
-                                                  textAlign: TextAlign.start,
+                                                  textAlign: TextAlign.center,
                                                 );
                                               }
                                             })),
@@ -266,8 +272,8 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                                                     CircularProgressIndicator());
                                           } else {
                                             return Container(
-                                              height: 150,
-                                              width: 150,
+                                              height: 250,
+                                              width: 250,
                                               child: Image.network(
                                                 downloadAway.toString(),
                                                 fit: BoxFit.cover,
@@ -307,8 +313,8 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                       )),
                   //RED CARD - 2 INDEX
                   Container(
-                      width: 500,
-                      height: 500,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
                       color: Colors.black,
                       child: Center(
                         child: Image.asset(
@@ -316,19 +322,26 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
                           fit: BoxFit.fitWidth,
                         ),
                       )),
-    
-                  //PRIKAZ POSTAVA - 3 - INDEX
+
+                  //GOAL AND VIDEO ANIMATION - 3 - INDEX - OVDJE JE SAMO KAKO BI SE INICIJALIZIRA
+                  SizedBox(
+                      width: 500,
+                      height: 500,
+                      child: VideoScreen(),),
+
+
+                //  PRIKAZ POSTAVA - 4 - INDEX
                   SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      height: 600,
+                      height: MediaQuery.of(context).size.height,
                       child: ShowPlayers(),
-                  ),
-                  //PRIKAZ ZAMJENA - 4 INDEX
-                  // SizedBox(
-                  //   width: MediaQuery.of(context).size.width,
-                  //   height: MediaQuery.of(context).size.height,
-                  //   child: ShowReplacements(),
-                  // )
+                    ),
+               //   PRIKAZ ZAMJENA - 5 INDEX
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: ShowReplacements(),
+                  )
                 ],
               ),
             ],
@@ -372,5 +385,4 @@ class _PublicScoreboardScreenState extends State<PublicScoreboardScreen> {
         .getDownloadURL();
   }
 
-  Time() async {}
 }

@@ -77,9 +77,11 @@ flutter:
      - assets/pic/defaultPlayer.png
      - assets/zuti.png
      - assets/crveni.png
-     - assets/video/
+     - assets/video/goal_video.mp4
+     - assets/video/hep_reklama.mp4
      - assets/audio/goal_audio.mp3
      - assets/pic/subGif.gif
+     - assets/pic/background.jpg
 
  
   #   - images/a_dot_ham.jpeg

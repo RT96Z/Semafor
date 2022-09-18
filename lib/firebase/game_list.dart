@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:semafor/text_field_decoration.dart';
+import 'dart:async';
+
 
 final CollectionReference igraciUtakmica = FirebaseFirestore.instance.collection('players');
 final CollectionReference clubData = FirebaseFirestore.instance.collection('game');
@@ -31,16 +34,20 @@ class gamePlayersHomeListState extends State<gamePlayersHomeList> {
 
   @override
   void initState() {
+   
+   
+    Timer(Duration(seconds: 1), () {
     firestoreStream = igraciUtakmica
             .where('playerClub', isEqualTo: homePlayers).orderBy('playerNumber')
             .get();
+             });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    getHome();
+     getHome();
     return Scaffold(
       body: FutureBuilder(
         future: firestoreStream,
@@ -129,9 +136,11 @@ class gamePlayersAwayListState extends State<gamePlayersAwayList> {
 
   @override
   void initState() {
+      Timer(Duration(seconds: 1), () {
     firestoreStream = igraciUtakmica
             .where('playerClub', isEqualTo: awayPlayers).orderBy('playerNumber')
             .get();
+      });
     super.initState();
   }
 
@@ -225,18 +234,40 @@ class _eventTrackState extends State<eventTrack> {
               child: TextField(
                 style: TextStyle(
                   color: Colors.black,
+                 
                 ),
+                 decoration: InputDecoration(
+                   hintText: 'min. gola',
+                  filled: true,
+                  fillColor: Colors.blueGrey[100],
+                  border: OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(10)),
+    borderSide: BorderSide.none,
+  )
+                 ),
                 controller: goalMinute,
+                
               )),
-          ElevatedButton(onPressed: () {
-            // ako klub odabranog igraca je = domaćem klubu onda bi značilo da domaći klub zabio i da se treba dodati na listu domaćih strijelaca.
-            if( selectedClub == homePlayers ){
-              addHomeEvent();
-            }
-            // u suprotnom znači da je odabrani igrač gostujući i da ide na listu gostujućih strijelaca
-            else {  addAwayEvent();}
-            goalMinute.clear();
-          }, child: Text('Gol'))
+                 SizedBox(height: 1,width: 15,),
+          SizedBox(
+            height: 50, width: 100,
+            child: ElevatedButton.icon(onPressed: () {
+              // ako klub odabranog igraca je = domaćem klubu onda bi značilo da domaći klub zabio i da se treba dodati na listu domaćih strijelaca.
+              if( selectedClub == homePlayers ){
+                setState(() {
+                  addHomeEvent();
+                });
+                
+              }
+              // u suprotnom znači da je odabrani igrač gostujući i da ide na listu gostujućih strijelaca
+              else { setState(() {
+                addAwayEvent();
+              }); }
+              goalMinute.clear();
+            }, label: Text('Gol', style: settingsTextStyle,),
+            icon: Icon(Icons.sports_football),
+            ),
+          )
         ],
       ),
     );

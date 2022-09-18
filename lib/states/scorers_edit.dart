@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:semafor/colors.dart';
+import 'package:semafor/text_field_decoration.dart';
 
 final CollectionReference gameData =
     FirebaseFirestore.instance.collection('game');
 
-class scorerHomeList extends StatefulWidget {
-  const scorerHomeList({super.key});
+class ScorerEditHome extends StatefulWidget {
+  const ScorerEditHome({super.key});
 
   @override
-  State<scorerHomeList> createState() => scorerHomeListState();
+  State<ScorerEditHome> createState() => ScorerEditHomeState();
 }
 
-class scorerHomeListState extends State<scorerHomeList> {
+class ScorerEditHomeState extends State<ScorerEditHome> {
   Future<void> _delete(String clubId) async {
     await gameData.doc('Event').collection('homeEvent').doc(clubId).delete();
   }
@@ -49,16 +50,20 @@ class scorerHomeListState extends State<scorerHomeList> {
                       title: Row(
                         children: [
                           Text(documentSnapshot['goalMinute'],
-                              style: scorerListPureWhite),
-                          Text("' - ", style: scorerListPureWhite),
+                              style: scorersEditStyle),
+                          Text("' - ", style: scorersEditStyle),
                           SizedBox(
                             width: 5,
                           ),
                           Text(documentSnapshot['scorer'],
-                              style: scorerListPureWhite),
+                              style: scorersEditStyle),
                         ],
                       ),
-);
+                      trailing: ElevatedButton(child:  Icon(Icons.close, color: Colors.red, size: 20,), onPressed: () {
+                        _delete(documentSnapshot.id);
+                      },)
+                      
+                     );
 
               },
             );
@@ -73,14 +78,14 @@ class scorerHomeListState extends State<scorerHomeList> {
   }
 }
 
-class ScorerAwayList extends StatefulWidget {
-  const ScorerAwayList({super.key});
+class ScorerEditAway extends StatefulWidget {
+  const ScorerEditAway({super.key});
 
   @override
-  State<ScorerAwayList> createState() => ScorerAwayListState();
+  State<ScorerEditAway> createState() => ScorerEditAwayState();
 }
 
-class ScorerAwayListState extends State<ScorerAwayList> {
+class ScorerEditAwayState extends State<ScorerEditAway> {
   Future<void> _delete(String clubId) async {
     await gameData.doc('Event').collection('awayEvent').doc(clubId).delete();
   }
@@ -116,16 +121,19 @@ class ScorerAwayListState extends State<ScorerAwayList> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(documentSnapshot['goalMinute'],
-                              style: scorerListPureWhite),
-                          Text("' - ", style: scorerListPureWhite),
+                              style: scorersEditStyle),
+                          Text("' - ", style: scorersEditStyle),
                           SizedBox(
                             width: 5,
                           ),
                           Text(documentSnapshot['scorer'],
-                              style: scorerListPureWhite),
+                              style: scorersEditStyle),
                         ],
                       ),
-                    ),
+                      trailing:ElevatedButton(child:  Icon(Icons.close, color: Colors.red, size: 20,), onPressed: () {
+                        _delete(documentSnapshot.id);
+                      },)
+      ),
                 );
               },
             );

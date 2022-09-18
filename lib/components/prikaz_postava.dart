@@ -35,8 +35,15 @@ class _ShowPlayersState extends State<ShowPlayers> {
     getPlayerData();
     return Container(
   
-      height: 600,
-      width: 900,
+width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      image: DecorationImage(
+            image:NetworkImage("assets/pic/background.jpg",),
+            fit: BoxFit.cover,
+          ),
+                    ),
       child:
           // SLIKA IGRAČA
 
@@ -56,7 +63,7 @@ class _ShowPlayersState extends State<ShowPlayers> {
                         playerPicture != null
                       ? Image.network('$playerPicture}', fit: BoxFit.cover)  :
                        // Image.asset('assets/pic/defaultPlayer.png', fit: BoxFit.cover,),  //moze i ovako ali to bolje staviti za igrace koji nemaju uopce sliku
-                       Text(''),
+                       SizedBox( width : 50 , height: 10, child: Text('')),
                                 ),
                               ],
                     ),

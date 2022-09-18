@@ -48,6 +48,7 @@ class HomeView extends StatelessWidget {
                   Row(
                     children: [eventTrack()],
                   ),
+                SizedBox(height: 15,width: 1,),
                   Row(
                     children: [
                       Column(
@@ -64,7 +65,7 @@ class HomeView extends StatelessWidget {
                           SizedBox(
                             width: 300,
                             height: 500,
-                         //     child: gamePlayersAwayList()
+                              child: gamePlayersAwayList()
                           )
                         ],
                       ),

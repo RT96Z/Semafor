@@ -49,16 +49,17 @@ class _ZamjeneState extends State<Zamjene> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Center(
         child: Row(
             children: [
+                   SizedBox(width: 20,height: 1,),
 
       //Igrač koji izlazi
       Column(
         children: [
                 Container(
            
-      height: 800,
+      height: 600,
       width: 400,
       child: ListView.builder(
       itemCount: playersOUTList.length,
@@ -82,7 +83,7 @@ class _ZamjeneState extends State<Zamjene> {
       Column(children: [
       Container(
            
-      height: 800,
+      height: 600,
       width: 400,
       child: ListView.builder(
             itemCount: playersOUTList.length,
@@ -96,9 +97,11 @@ class _ZamjeneState extends State<Zamjene> {
     
 
       ]),
+      SizedBox(width: 30,height: 1,),
 
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox( width: 100, height: 50, child: ElevatedButton(
             

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:semafor/components/video.dart';
 import 'package:semafor/screens/prikaz_zamjena.dart';
 
-
 import 'package:semafor/views/publicScoreboardScreen.dart';
 
 final CollectionReference gameData =
@@ -49,28 +48,24 @@ class _ScoreboardSwitchState extends State<ScoreboardSwitch> {
   Widget? getCustomContainer() {
     switch (switchero) {
       case 0:
-        return semaforPrikaz();
+        return SemaforPrikaz();
       case 1:
-        return videoPrikaz();
+        return VideoPrikaz();
 
-      case 2:
-        return ZamjenePrikaz();
  
 
     }
-    // return semaforPrikaz();  // default container
+    // return SemaforPrikaz();  // default container
   }
 
-  Widget semaforPrikaz() {
+  Widget SemaforPrikaz() {
     return Flexible(fit: FlexFit.tight, flex: 1, child: PublicScoreboardScreen());
   }
 
-  Widget videoPrikaz() {
-    return Container( height: 200, width: 200, child: VideoScreen());
+  Widget VideoPrikaz() {
+    return Container( height: 800, width: 900, child: VideoScreen());
   }
 
-  Widget ZamjenePrikaz() {
-    return Container( height: 800, width: 900, child: ShowReplacements());
-  }
+
 
 }

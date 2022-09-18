@@ -131,7 +131,7 @@ class _SettingsViewBodyWidgetState extends State<SettingsViewBodyWidget> {
     return Flexible(
       fit: FlexFit.tight,
       flex: 1,
-      child: Text('A'),
+      child: Container(color: Colors.transparent,)
     // ReorderPlayerHomeLIst()
     );
   }

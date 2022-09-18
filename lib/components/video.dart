@@ -45,6 +45,7 @@ class _VideoScreenState extends State<VideoScreen> {
   Widget build(BuildContext context) {
     getIndex();
 
+
     return Center(
           child:  VideoPlayer(_controller),
                 

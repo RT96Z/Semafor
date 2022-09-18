@@ -18,6 +18,23 @@ final textFieldDecoration = InputDecoration(
 );
 
 
+final settingsTextStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 15,
+  fontWeight: FontWeight.bold
+);
+
+
+final scorersEditStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 18,
+  fontWeight: FontWeight.bold
+);
+
+
+
+
+
 
 
 
